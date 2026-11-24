@@ -3,280 +3,133 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FoodShare Enterprise | Food Surplus & Relief Management System</title>
+    <title>FoodShare Network | Food Donation & Redistribution</title>
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
-    
     <style>
         :root {
-            --bg-body: #f8fafc;
-            --bg-surface: #ffffff;
-            --text-primary: #0f172a;
-            --text-secondary: #475569;
-            --text-muted: #64748b;
+            --primary: #059669;
+            --primary-dark: #047857;
+            --primary-light: #ecfdf5;
+            --secondary: #d97706;
+            --dark: #0f172a;
+            --slate: #334155;
+            --muted: #64748b;
+            --light-bg: #f8fafc;
             --border-color: #e2e8f0;
-            --border-subtle: #f1f5f9;
-            
-            --primary: #0f766e;
-            --primary-hover: #115e59;
-            --primary-light: #f0fdfa;
-            --primary-border: #ccfbf1;
-            
-            --accent-blue: #0284c7;
-            --accent-amber: #d97706;
-            --accent-rose: #e11d48;
-            --accent-indigo: #4338ca;
-            
-            --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-            --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-        }
-
-        * {
-            box-sizing: border-box;
         }
 
         body {
-            background-color: var(--bg-body);
+            background-color: var(--light-bg);
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            color: var(--text-primary);
+            color: var(--slate);
             -webkit-font-smoothing: antialiased;
             letter-spacing: -0.011em;
         }
 
-        /* Top Header */
-        .app-header {
-            background-color: var(--bg-surface);
-            border-bottom: 1px solid var(--border-color);
-            padding: 0.875rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 1020;
-        }
-
-        .brand-logo {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.75rem;
-            text-decoration: none;
-            color: var(--text-primary);
+        .navbar-brand {
             font-weight: 700;
-            font-size: 1.125rem;
+            color: var(--primary-dark) !important;
+            font-size: 1.25rem;
             letter-spacing: -0.02em;
         }
 
-        .brand-icon {
-            width: 32px;
-            height: 32px;
-            background: linear-gradient(135deg, #0f766e 0%, #134e4a 100%);
-            border-radius: 8px;
-            display: flex;
+        .brand-icon-box {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            border-radius: 9px;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 0.9rem;
-            box-shadow: 0 2px 4px rgba(15, 118, 110, 0.2);
+            font-size: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(5, 150, 105, 0.25);
         }
 
-        .system-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            font-size: 0.75rem;
-            font-weight: 600;
-            padding: 0.25rem 0.65rem;
-            border-radius: 9999px;
-            background-color: #ecfdf5;
-            color: #047857;
-            border: 1px solid #a7f3d0;
+        .hero-banner {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            color: white;
+            padding: 3.5rem 1rem;
+            border-radius: 0 0 2rem 2rem;
+            margin-bottom: 2.25rem;
+            box-shadow: 0 12px 24px -6px rgba(5, 150, 105, 0.2);
         }
 
-        .status-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background-color: #10b981;
-            display: inline-block;
+        .hero-title {
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            font-size: 2.5rem;
         }
 
-        /* Hero / Page Overview Header */
-        .page-header {
-            background-color: var(--bg-surface);
-            border-bottom: 1px solid var(--border-color);
-            padding: 2.25rem 0 1.5rem 0;
-            margin-bottom: 2rem;
+        .hero-subtitle {
+            font-size: 1.05rem;
+            opacity: 0.92;
+            max-width: 640px;
+            line-height: 1.6;
         }
 
-        .page-title {
-            font-size: 1.625rem;
-            font-weight: 700;
-            letter-spacing: -0.025em;
-            color: var(--text-primary);
-            margin-bottom: 0.35rem;
-        }
-
-        .page-subtitle {
-            font-size: 0.925rem;
-            color: var(--text-secondary);
-            margin-bottom: 0;
-            max-width: 680px;
-        }
-
-        /* Segmented Navigation */
-        .nav-segment {
-            background-color: #f1f5f9;
-            padding: 0.3rem;
-            border-radius: 10px;
-            display: inline-flex;
+        .nav-pills {
+            background: #ffffff;
+            padding: 0.35rem;
+            border-radius: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
             border: 1px solid var(--border-color);
+            display: inline-flex;
         }
 
-        .nav-segment .nav-link {
-            border: none;
-            color: var(--text-secondary);
-            font-size: 0.875rem;
-            font-weight: 500;
-            padding: 0.5rem 1.1rem;
-            border-radius: 7px;
+        .nav-pills .nav-link {
+            color: var(--muted);
+            font-weight: 600;
+            font-size: 0.9rem;
+            border-radius: 0.75rem;
+            padding: 0.6rem 1.25rem;
             transition: all 0.15s ease;
         }
 
-        .nav-segment .nav-link:hover {
-            color: var(--text-primary);
+        .nav-pills .nav-link:hover {
+            color: var(--dark);
         }
 
-        .nav-segment .nav-link.active {
-            background-color: var(--bg-surface);
-            color: var(--text-primary);
-            box-shadow: var(--shadow-sm);
-            font-weight: 600;
+        .nav-pills .nav-link.active {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: 0 4px 10px rgba(5, 150, 105, 0.25);
         }
 
-        /* Metric Cards */
-        .metric-card {
-            background: var(--bg-surface);
+        .card {
             border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 1.25rem 1.5rem;
-            box-shadow: var(--shadow-xs);
+            border-radius: 1rem;
+            background: #ffffff;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+            transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
         }
 
-        .metric-label {
-            font-size: 0.8125rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--text-muted);
-            margin-bottom: 0.4rem;
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -3px rgba(0, 0, 0, 0.07);
+            border-color: #cbd5e1;
         }
 
-        .metric-value {
-            font-size: 1.75rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            letter-spacing: -0.03em;
-            line-height: 1;
-        }
-
-        /* Content Cards */
-        .card-panel {
-            background: var(--bg-surface);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            box-shadow: var(--shadow-xs);
-            overflow: hidden;
-        }
-
-        .panel-header {
-            padding: 1.25rem 1.5rem;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .panel-title {
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin: 0;
-        }
-
-        /* Inventory Cards */
-        .inventory-card {
-            background: var(--bg-surface);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 1.25rem;
-            box-shadow: var(--shadow-xs);
-            transition: border-color 0.2s, box-shadow 0.2s;
+        .food-card {
             display: flex;
             flex-direction: column;
             height: 100%;
         }
 
-        .inventory-card:hover {
-            border-color: #cbd5e1;
-            box-shadow: var(--shadow-md);
-        }
-
-        .inventory-title {
-            font-size: 1.05rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 0.35rem;
-            letter-spacing: -0.015em;
-        }
-
-        .inventory-desc {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            margin-bottom: 1rem;
-            flex-grow: 1;
-            line-height: 1.45;
-        }
-
-        .info-grid {
-            background: #f8fafc;
-            border: 1px solid var(--border-subtle);
-            border-radius: 8px;
-            padding: 0.75rem;
-            font-size: 0.8125rem;
-            margin-bottom: 1rem;
-        }
-
-        .info-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 0.2rem 0;
-        }
-
-        .info-label {
-            color: var(--text-muted);
-            font-weight: 500;
-        }
-
-        .info-val {
-            color: var(--text-primary);
-            font-weight: 600;
-            text-align: right;
-        }
-
-        /* Status Badges */
-        .badge-status {
+        .status-badge {
             font-size: 0.725rem;
-            font-weight: 600;
-            padding: 0.25rem 0.6rem;
-            border-radius: 6px;
-            letter-spacing: 0.025em;
             text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            padding: 0.35rem 0.75rem;
+            border-radius: 9999px;
         }
 
         .status-available {
@@ -309,309 +162,259 @@
             border: 1px solid #fecaca;
         }
 
-        /* Buttons */
-        .btn-custom-primary {
+        .btn-primary {
             background-color: var(--primary);
-            border: 1px solid var(--primary);
-            color: #ffffff;
+            border-color: var(--primary);
             font-weight: 600;
-            font-size: 0.875rem;
-            padding: 0.55rem 1rem;
-            border-radius: 8px;
-            transition: all 0.15s ease;
         }
 
-        .btn-custom-primary:hover {
-            background-color: var(--primary-hover);
-            border-color: var(--primary-hover);
-            color: #ffffff;
-            box-shadow: 0 2px 4px rgba(15, 118, 110, 0.2);
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
         }
 
-        .btn-custom-secondary {
-            background-color: var(--bg-surface);
-            border: 1px solid var(--border-color);
-            color: var(--text-secondary);
-            font-weight: 600;
-            font-size: 0.875rem;
-            padding: 0.55rem 1rem;
-            border-radius: 8px;
-            transition: all 0.15s ease;
+        .stat-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.35rem 1.25rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
         }
 
-        .btn-custom-secondary:hover {
-            background-color: #f1f5f9;
-            color: var(--text-primary);
-            border-color: #cbd5e1;
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--dark);
+            letter-spacing: -0.03em;
+            line-height: 1.1;
         }
 
-        /* Form Controls */
         .form-label {
-            font-size: 0.8125rem;
+            font-size: 0.825rem;
             font-weight: 600;
-            color: var(--text-secondary);
+            color: var(--dark);
             margin-bottom: 0.35rem;
         }
 
         .form-control, .form-select {
+            border-radius: 0.65rem;
             border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 0.55rem 0.85rem;
-            font-size: 0.875rem;
-            color: var(--text-primary);
-            background-color: #ffffff;
-            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+            padding: 0.6rem 0.9rem;
+            font-size: 0.9rem;
         }
 
         .form-control:focus, .form-select:focus {
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.15);
+            box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.15);
         }
 
-        /* Tables */
-        .table-custom {
-            margin-bottom: 0;
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background-color: #10b981;
+            display: inline-block;
         }
 
-        .table-custom th {
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--text-muted);
-            background-color: #f8fafc;
-            border-bottom: 1px solid var(--border-color);
-            padding: 0.875rem 1.25rem;
-        }
-
-        .table-custom td {
-            font-size: 0.875rem;
-            color: var(--text-primary);
-            padding: 1rem 1.25rem;
-            border-bottom: 1px solid var(--border-color);
-            vertical-align: middle;
-        }
-
-        .table-custom tr:last-child td {
-            border-bottom: none;
-        }
-
-        /* Toast notifications */
         .toast-container {
             position: fixed;
             bottom: 1.5rem;
             right: 1.5rem;
-            z-index: 1090;
-        }
-
-        .toast-custom {
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-            box-shadow: var(--shadow-lg);
-            font-size: 0.875rem;
-            min-width: 320px;
+            z-index: 1055;
         }
     </style>
 </head>
 <body>
 
-<!-- Global Header -->
-<header class="app-header">
-    <div class="container d-flex align-items-center justify-content-between">
-        <a href="/" class="brand-logo">
-            <div class="brand-icon">
-                <i class="fa-solid fa-arrows-split-up-and-left"></i>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top shadow-sm">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="/">
+            <div class="brand-icon-box me-2">
+                <i class="fa-solid fa-hand-holding-heart"></i>
             </div>
             <div>
-                <div>FoodShare Enterprise</div>
-                <div style="font-size: 0.7rem; font-weight: 500; color: var(--text-muted); letter-spacing: 0.02em;">SURPLUS REDISTRIBUTION PLATFORM</div>
+                <div>FoodShare Network</div>
+                <div style="font-size: 0.68rem; font-weight: 500; color: var(--muted); letter-spacing: 0.02em;">SURPLUS REDISTRIBUTION PLATFORM</div>
             </div>
         </a>
-
-        <div class="d-flex align-items-center gap-3">
-            <span class="system-badge">
-                <span class="status-dot"></span> API Operational
+        <div class="d-flex align-items-center">
+            <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 rounded-pill d-flex align-items-center gap-2">
+                <span class="status-dot"></span> System Operational
             </span>
-            <button class="btn btn-sm btn-custom-secondary" onclick="seedSampleData()">
-                <i class="fa-solid fa-database me-1 text-muted"></i> Load Demo Data
-            </button>
         </div>
     </div>
-</header>
+</nav>
 
-<!-- Workspace Header & Summary Metrics -->
-<div class="page-header">
+<!-- Hero Section -->
+<div class="hero-banner text-center">
     <div class="container">
-        <div class="row align-items-end g-3 mb-4">
-            <div class="col-md-7">
-                <h1 class="page-title">Operations Dashboard</h1>
-                <p class="page-subtitle">Coordinate institutional food surplus allocations between registered food donors and verified relief organizations.</p>
-            </div>
-            <div class="col-md-5 text-md-end">
-                <div class="nav-segment" id="mainTab" role="tablist">
-                    <button class="nav-link active" id="tab-inventory" data-bs-toggle="pill" data-bs-target="#pane-inventory" type="button" role="tab">
-                        Active Inventory
-                    </button>
-                    <button class="nav-link" id="tab-dispatch" data-bs-toggle="pill" data-bs-target="#pane-dispatch" type="button" role="tab">
-                        Post Surplus
-                    </button>
-                    <button class="nav-link" id="tab-fulfill" data-bs-toggle="pill" data-bs-target="#pane-fulfill" type="button" role="tab" onclick="loadRequests()">
-                        Allocations
-                    </button>
-                    <button class="nav-link" id="tab-registry" data-bs-toggle="pill" data-bs-target="#pane-registry" type="button" role="tab" onclick="loadUsers()">
-                        Directory
-                    </button>
+        <h1 class="hero-title mb-3">Connecting Donors & NGOs to End Food Waste</h1>
+        <p class="hero-subtitle mb-4 mx-auto">
+            Restaurants, caterers, and food providers list surplus edible meals, and verified relief organizations claim and distribute them to communities in need.
+        </p>
+        <div class="row g-3 justify-content-center mx-auto" style="max-width: 820px;">
+            <div class="col-md-4 col-6">
+                <div class="stat-card">
+                    <div class="stat-number text-success" id="stat-donations">0</div>
+                    <div class="text-muted small fw-semibold mt-1">Available Donations</div>
                 </div>
             </div>
-        </div>
-
-        <!-- Metric Stat Cards -->
-        <div class="row g-3">
-            <div class="col-6 col-lg-3">
-                <div class="metric-card">
-                    <div class="metric-label">Available Listings</div>
-                    <div class="metric-value" id="stat-donations">0</div>
+            <div class="col-md-4 col-6">
+                <div class="stat-card">
+                    <div class="stat-number text-warning" id="stat-ngos">0</div>
+                    <div class="text-muted small fw-semibold mt-1">Active NGOs</div>
                 </div>
             </div>
-            <div class="col-6 col-lg-3">
-                <div class="metric-card">
-                    <div class="metric-label">Partner NGOs</div>
-                    <div class="metric-value" id="stat-ngos">0</div>
-                </div>
-            </div>
-            <div class="col-6 col-lg-3">
-                <div class="metric-card">
-                    <div class="metric-label">Corporate Donors</div>
-                    <div class="metric-value" id="stat-donors">0</div>
-                </div>
-            </div>
-            <div class="col-6 col-lg-3">
-                <div class="metric-card">
-                    <div class="metric-label">Total Requests</div>
-                    <div class="metric-value" id="stat-requests">0</div>
+            <div class="col-md-4 col-12">
+                <div class="stat-card">
+                    <div class="stat-number text-primary" id="stat-donors">0</div>
+                    <div class="text-muted small fw-semibold mt-1">Registered Donors</div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Main Body -->
-<main class="container pb-5">
+<!-- Main Workspace with Tabs -->
+<div class="container pb-5">
+    <!-- Centered Nav Pills -->
+    <div class="text-center mb-4">
+        <ul class="nav nav-pills" id="mainTab" role="tablist">
+            <li class="nav-item">
+                <button class="nav-link active" id="browse-tab" data-bs-toggle="pill" data-bs-target="#browse" type="button" role="tab">
+                    <i class="fa-solid fa-utensils me-1"></i> Available Food
+                </button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link" id="donate-tab" data-bs-toggle="pill" data-bs-target="#donate" type="button" role="tab">
+                    <i class="fa-solid fa-circle-plus me-1"></i> Post Food Donation
+                </button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link" id="requests-tab" data-bs-toggle="pill" data-bs-target="#requests" type="button" role="tab" onclick="loadRequests()">
+                    <i class="fa-solid fa-clipboard-check me-1"></i> Requests & Approvals
+                </button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link" id="users-tab" data-bs-toggle="pill" data-bs-target="#users" type="button" role="tab" onclick="loadUsers()">
+                    <i class="fa-solid fa-users me-1"></i> Users & Organizations
+                </button>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Tab Contents -->
     <div class="tab-content" id="mainTabContent">
 
-        <!-- TAB 1: ACTIVE INVENTORY -->
-        <div class="tab-pane fade show active" id="pane-inventory" role="tabpanel">
-            <div class="card-panel">
-                <div class="panel-header">
-                    <div>
-                        <h2 class="panel-title">Available Food Inventory</h2>
-                        <div class="text-muted" style="font-size: 0.8125rem;">Live supplies available for immediate allocation and dispatch.</div>
-                    </div>
-                    <button class="btn btn-sm btn-custom-secondary" onclick="loadAvailableDonations()">
-                        <i class="fa-solid fa-rotate-right me-1"></i> Refresh
-                    </button>
+        <!-- TAB 1: BROWSE AVAILABLE DONATIONS -->
+        <div class="tab-pane fade show active" id="browse" role="tabpanel">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <h4 class="fw-bold mb-0 text-dark">Available Food Listings</h4>
+                    <div class="text-muted small">Live surplus listings ready for immediate pickup and distribution.</div>
                 </div>
+                <button class="btn btn-sm btn-outline-success rounded-pill px-3" onclick="loadAvailableDonations()">
+                    <i class="fa-solid fa-arrows-rotate me-1"></i> Refresh
+                </button>
+            </div>
 
-                <div class="p-4">
-                    <div id="donations-container" class="row g-3">
-                        <div class="col-12 text-center py-5 text-muted">
-                            <div class="spinner-border spinner-border-sm text-secondary mb-2" role="status"></div>
-                            <div style="font-size: 0.875rem;">Retrieving current inventory records...</div>
-                        </div>
-                    </div>
+            <div id="donations-container" class="row g-4">
+                <div class="col-12 text-center py-5 text-muted">
+                    <div class="spinner-border text-success spinner-border-sm" role="status"></div>
+                    <p class="mt-2 small">Loading available food listings...</p>
                 </div>
             </div>
         </div>
 
-        <!-- TAB 2: POST SURPLUS (DONATION) -->
-        <div class="tab-pane fade" id="pane-dispatch" role="tabpanel">
+        <!-- TAB 2: POST A DONATION -->
+        <div class="tab-pane fade" id="donate" role="tabpanel">
             <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <div class="card-panel">
-                        <div class="panel-header">
+                <div class="col-lg-7">
+                    <div class="card p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="brand-icon-box me-3">
+                                <i class="fa-solid fa-basket-shopping"></i>
+                            </div>
                             <div>
-                                <h2 class="panel-title">List Surplus Inventory</h2>
-                                <div class="text-muted" style="font-size: 0.8125rem;">Register edible food batch for collection by relief organizations.</div>
+                                <h4 class="fw-bold text-dark mb-0">Donate Surplus Food</h4>
+                                <div class="text-muted small">List fresh surplus meals or ingredients for verified relief organizations.</div>
                             </div>
                         </div>
 
-                        <div class="p-4">
-                            <form id="donation-form" onsubmit="handleCreateDonation(event)">
-                                <div class="mb-3">
-                                    <label class="form-label">Authorized Donor Organization <span class="text-danger">*</span></label>
-                                    <select class="form-select" id="donor-select" required>
-                                        <option value="">-- Select Registered Donor Organization --</option>
-                                    </select>
-                                    <div class="form-text" style="font-size: 0.775rem;">Account must be configured with role: DONOR.</div>
-                                </div>
+                        <form id="donation-form" onsubmit="handleCreateDonation(event)">
+                            <div class="mb-3">
+                                <label class="form-label">Select Donor Account <span class="text-danger">*</span></label>
+                                <select class="form-select" id="donor-select" required>
+                                    <option value="">-- Choose Donor Account --</option>
+                                </select>
+                                <div class="form-text">Must be an account registered with role: <strong>DONOR</strong>.</div>
+                            </div>
 
-                                <div class="mb-3">
-                                    <label class="form-label">Item Name / Food Batch Description <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="foodName" placeholder="e.g. Prepared Box Meals (Vegetarian / Rice & Lentils)" required>
-                                </div>
+                            <div class="mb-3">
+                                <label class="form-label">Food Item / Meal Description <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="foodName" placeholder="e.g. 50 Packed Vegetarian Rice & Curry Meals" required>
+                            </div>
 
-                                <div class="row g-3 mb-3">
-                                    <div class="col-md-6">
-                                        <label class="form-label">Quantity Specification <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="foodQuantity" placeholder="e.g. 50 individual boxes / 20 kg" required>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label">Safety Compliance Expiration <span class="text-danger">*</span></label>
-                                        <input type="datetime-local" class="form-control" id="safeUntil" required>
-                                    </div>
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Quantity <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="foodQuantity" placeholder="e.g. 50 boxes / 25 kg" required>
                                 </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Safe Until (Expiry Deadline) <span class="text-danger">*</span></label>
+                                    <input type="datetime-local" class="form-control" id="safeUntil" required>
+                                </div>
+                            </div>
 
-                                <div class="mb-3">
-                                    <label class="form-label">Designated Dispatch / Pickup Address <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="pickupLocation" placeholder="e.g. 450 Logistics Way, Dock 4, Industrial Park" required>
-                                </div>
+                            <div class="mb-3">
+                                <label class="form-label">Pickup Location / Address <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="pickupLocation" placeholder="e.g. 124 Grand Hotel, Banquet Hall, Station Road" required>
+                            </div>
 
-                                <div class="mb-4">
-                                    <label class="form-label">Handling & Packaging Instructions</label>
-                                    <textarea class="form-control" id="foodDescription" rows="3" placeholder="Storage requirements (e.g. Keep refrigerated below 4°C, packaged in sealed food containers)."></textarea>
-                                </div>
+                            <div class="mb-4">
+                                <label class="form-label">Packaging & Storage Notes</label>
+                                <textarea class="form-control" id="foodDescription" rows="2" placeholder="e.g. Freshly packed from dinner event, kept refrigerated in sealed containers."></textarea>
+                            </div>
 
-                                <div class="d-flex justify-content-end gap-2">
-                                    <button type="reset" class="btn btn-custom-secondary">Reset Form</button>
-                                    <button type="submit" class="btn btn-custom-primary">
-                                        <i class="fa-solid fa-upload me-1"></i> Register Food Listing
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
+                            <button type="submit" class="btn btn-primary w-100 py-2 rounded-pill">
+                                <i class="fa-solid fa-paper-plane me-1"></i> Post Food Donation
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- TAB 3: ALLOCATIONS & FULFILLMENT -->
-        <div class="tab-pane fade" id="pane-fulfill" role="tabpanel">
-            <div class="card-panel">
-                <div class="panel-header">
+        <!-- TAB 3: REQUESTS & APPROVALS -->
+        <div class="tab-pane fade" id="requests" role="tabpanel">
+            <div class="card p-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
                     <div>
-                        <h2 class="panel-title">Allocation & Fulfillment Pipeline</h2>
-                        <div class="text-muted" style="font-size: 0.8125rem;">Review, approve, and finalize delivery claims submitted by verified relief groups.</div>
+                        <h4 class="fw-bold mb-0 text-dark">Food Requests & Approvals</h4>
+                        <div class="text-muted small">Donors review and approve NGO collection requests.</div>
                     </div>
-                    <button class="btn btn-sm btn-custom-secondary" onclick="loadRequests()">
-                        <i class="fa-solid fa-rotate-right me-1"></i> Refresh
+                    <button class="btn btn-sm btn-outline-primary rounded-pill px-3" onclick="loadRequests()">
+                        <i class="fa-solid fa-arrows-rotate me-1"></i> Refresh
                     </button>
                 </div>
 
                 <div class="table-responsive">
-                    <table class="table table-custom">
-                        <thead>
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
                             <tr>
-                                <th style="width: 80px;">Request ID</th>
-                                <th>Listing Item</th>
-                                <th>Claiming NGO</th>
-                                <th>Logistical Notes</th>
+                                <th>ID</th>
+                                <th>Food Item</th>
+                                <th>Requesting NGO</th>
+                                <th>Pickup Note</th>
                                 <th>Status</th>
-                                <th class="text-end" style="min-width: 190px;">Action Controls</th>
+                                <th class="text-end">Actions</th>
                             </tr>
                         </thead>
                         <tbody id="requests-table-body">
                             <tr>
-                                <td colspan="6" class="text-center py-4 text-muted">Awaiting request synchronization...</td>
+                                <td colspan="6" class="text-center py-4 text-muted">Loading requests...</td>
                             </tr>
                         </tbody>
                     </table>
@@ -619,63 +422,61 @@
             </div>
         </div>
 
-        <!-- TAB 4: DIRECTORY & ACCESS CONTROL -->
-        <div class="tab-pane fade" id="pane-registry" role="tabpanel">
+        <!-- TAB 4: USERS & REGISTRATION -->
+        <div class="tab-pane fade" id="users" role="tabpanel">
             <div class="row g-4">
-                <div class="col-lg-4">
-                    <div class="card-panel">
-                        <div class="panel-header">
-                            <h2 class="panel-title">Register Stakeholder</h2>
-                        </div>
-                        <div class="p-3">
-                            <form id="user-form" onsubmit="handleRegisterUser(event)">
-                                <div class="mb-3">
-                                    <label class="form-label">Entity / Contact Name <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="userName" placeholder="e.g. City Relief Coalition" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Official Email Address <span class="text-danger">*</span></label>
-                                    <input type="email" class="form-control" id="userEmail" placeholder="contact@organization.org" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Access Credentials (Password) <span class="text-danger">*</span></label>
-                                    <input type="password" class="form-control" id="userPassword" placeholder="Minimum 6 characters" required>
-                                </div>
-                                <div class="mb-4">
-                                    <label class="form-label">System Role Assignment <span class="text-danger">*</span></label>
-                                    <select class="form-select" id="userRole" required>
-                                        <option value="NGO" selected>NGO (Recipient Organization)</option>
-                                        <option value="DONOR">DONOR (Supplier / Provider)</option>
-                                        <option value="ADMIN">ADMINISTRATOR</option>
-                                    </select>
-                                </div>
-                                <button type="submit" class="btn btn-custom-primary w-100">
-                                    <i class="fa-solid fa-user-plus me-1"></i> Register Account
-                                </button>
-                            </form>
-                        </div>
+                <div class="col-lg-5">
+                    <div class="card p-4">
+                        <h5 class="fw-bold text-dark mb-1">
+                            <i class="fa-solid fa-user-plus text-success me-2"></i>Register New Account
+                        </h5>
+                        <p class="text-muted small mb-3">Create an account as a Food Donor or an NGO Receiver.</p>
+
+                        <form id="user-form" onsubmit="handleRegisterUser(event)">
+                            <div class="mb-3">
+                                <label class="form-label">Organization / Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="userName" placeholder="e.g. City Relief Foundation" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Email Address <span class="text-danger">*</span></label>
+                                <input type="email" class="form-control" id="userEmail" placeholder="e.g. contact@cityrelief.org" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Password <span class="text-danger">*</span></label>
+                                <input type="password" class="form-control" id="userPassword" placeholder="Minimum 6 characters" required>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Account Role <span class="text-danger">*</span></label>
+                                <select class="form-select" id="userRole" required>
+                                    <option value="DONOR">DONOR (Restaurant, Caterer, Individual)</option>
+                                    <option value="NGO" selected>NGO (Charity, Food Bank, Shelter)</option>
+                                    <option value="ADMIN">ADMINISTRATOR</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100 py-2 rounded-pill">
+                                <i class="fa-solid fa-check me-1"></i> Register Account
+                            </button>
+                        </form>
                     </div>
                 </div>
 
-                <div class="col-lg-8">
-                    <div class="card-panel">
-                        <div class="panel-header">
-                            <h2 class="panel-title">Stakeholder Directory</h2>
-                        </div>
+                <div class="col-lg-7">
+                    <div class="card p-4">
+                        <h5 class="fw-bold text-dark mb-3">
+                            <i class="fa-solid fa-address-book text-primary me-2"></i>Registered Community Members
+                        </h5>
                         <div class="table-responsive">
-                            <table class="table table-custom">
-                                <thead>
+                            <table class="table table-sm table-hover align-middle">
+                                <thead class="table-light">
                                     <tr>
-                                        <th>Entity Name</th>
-                                        <th>Primary Contact</th>
-                                        <th>Designation</th>
-                                        <th class="text-end">Manage</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Role</th>
+                                        <th class="text-end">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody id="users-table-body">
-                                    <tr>
-                                        <td colspan="4" class="text-center py-4 text-muted">Loading directory records...</td>
-                                    </tr>
+                                    <tr><td colspan="4" class="text-center py-3 text-muted">Loading users...</td></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -685,44 +486,41 @@
         </div>
 
     </div>
-</main>
+</div>
 
-<!-- Modal: Claim Food Request -->
-<div class="modal fade" id="requestModal" tabindex="-1" aria-hidden="true">
+<!-- Modal: Request Food -->
+<div class="modal fade" id="requestModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0" style="border-radius: 12px; box-shadow: var(--shadow-lg);">
-            <div class="modal-header border-bottom" style="padding: 1.25rem 1.5rem;">
-                <h5 class="modal-title" style="font-size: 1.05rem; font-weight: 600;">
-                    Initiate Food Surplus Claim
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title fw-bold">
+                    <i class="fa-solid fa-hand-holding-heart me-2"></i>Request Food Donation
                 </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body p-4">
-                <div class="mb-3 p-3" style="background: #f8fafc; border: 1px solid var(--border-color); border-radius: 8px;">
-                    <div class="text-muted" style="font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">Selected Batch</div>
-                    <div id="modal-food-name" class="fw-semibold text-dark mt-1" style="font-size: 0.95rem;"></div>
-                </div>
+                <p class="mb-3">You are requesting: <strong id="modal-food-name" class="text-success"></strong></p>
 
                 <form id="modal-request-form" onsubmit="submitFoodRequest(event)">
                     <input type="hidden" id="modal-donation-id">
                     
                     <div class="mb-3">
-                        <label class="form-label">Claiming Relief Entity (NGO) <span class="text-danger">*</span></label>
+                        <label class="form-label">Select Requesting NGO <span class="text-danger">*</span></label>
                         <select class="form-select" id="modal-ngo-select" required>
-                            <option value="">-- Choose Registered NGO Account --</option>
+                            <option value="">-- Choose NGO Account --</option>
                         </select>
-                        <div class="form-text" style="font-size: 0.75rem;">Only authorized relief organizations (role: NGO) are permitted to submit requests.</div>
+                        <div class="form-text">Only users registered with role: <strong>NGO</strong> can claim food.</div>
                     </div>
 
                     <div class="mb-4">
-                        <label class="form-label">Pickup Logistics & Distribution Details</label>
-                        <textarea class="form-control" id="modal-message" rows="3" placeholder="Provide estimated pickup schedule, transport capacity, and destination center details..."></textarea>
+                        <label class="form-label">Pickup Plan / Notes</label>
+                        <textarea class="form-control" id="modal-message" rows="3" placeholder="e.g. We have transportation available and can collect within 1 hour for our shelter."></textarea>
                     </div>
 
                     <div class="d-flex justify-content-end gap-2">
-                        <button type="button" class="btn btn-custom-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-custom-primary">
-                            Submit Allocation Claim
+                        <button type="button" class="btn btn-outline-secondary rounded-pill px-3" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary rounded-pill px-4">
+                            Submit Request
                         </button>
                     </div>
                 </form>
@@ -731,11 +529,11 @@
     </div>
 </div>
 
-<!-- Toast Notifications -->
+<!-- Toast Container -->
 <div class="toast-container">
-    <div id="liveToast" class="toast toast-custom align-items-center text-white bg-dark border-0" role="alert">
+    <div id="liveToast" class="toast align-items-center text-white bg-dark border-0 shadow" role="alert">
         <div class="d-flex">
-            <div class="toast-body" id="toastMessage">Operation executed successfully.</div>
+            <div class="toast-body" id="toastMessage">Action completed successfully.</div>
             <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
         </div>
     </div>
@@ -752,37 +550,36 @@
     document.addEventListener('DOMContentLoaded', () => {
         requestModalInstance = new bootstrap.Modal(document.getElementById('requestModal'));
         
-        // Default safeUntil to +24 hours
-        const defaultDeadline = new Date();
-        defaultDeadline.setDate(defaultDeadline.getDate() + 1);
-        defaultDeadline.setHours(18, 0, 0, 0);
-        document.getElementById('safeUntil').value = defaultDeadline.toISOString().slice(0, 16);
+        // Default safeUntil to tomorrow 8 PM
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        tomorrow.setHours(20, 0, 0, 0);
+        document.getElementById('safeUntil').value = tomorrow.toISOString().slice(0, 16);
 
         loadUsers();
         loadAvailableDonations();
-        loadRequestStats();
     });
 
     function showToast(message, isError = false) {
         const toastEl = document.getElementById('liveToast');
         const toastMsg = document.getElementById('toastMessage');
         toastMsg.textContent = message;
-        toastEl.className = `toast toast-custom align-items-center text-white border-0 ${isError ? 'bg-danger' : 'bg-dark'}`;
-        const toast = new bootstrap.Toast(toastEl, { delay: 4500 });
+        toastEl.className = `toast align-items-center text-white border-0 shadow ${isError ? 'bg-danger' : 'bg-dark'}`;
+        const toast = new bootstrap.Toast(toastEl, { delay: 4000 });
         toast.show();
     }
 
-    // Load users & populate role options
+    // Load all users
     async function loadUsers() {
         try {
             const res = await fetch(`${API_BASE}/users`);
             allUsers = await res.json();
             
             const donorSelect = document.getElementById('donor-select');
-            donorSelect.innerHTML = '<option value="">-- Select Registered Donor Organization --</option>';
+            donorSelect.innerHTML = '<option value="">-- Choose Donor Account --</option>';
             
             const ngoSelect = document.getElementById('modal-ngo-select');
-            ngoSelect.innerHTML = '<option value="">-- Choose Registered NGO Account --</option>';
+            ngoSelect.innerHTML = '<option value="">-- Choose NGO Account --</option>';
 
             const tbody = document.getElementById('users-table-body');
             tbody.innerHTML = '';
@@ -799,17 +596,16 @@
                     ngoSelect.innerHTML += `<option value="${user.id}">${user.name} (${user.email})</option>`;
                 }
 
-                let badgeColor = 'background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1;';
-                if (user.role === 'DONOR') badgeColor = 'background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe;';
-                if (user.role === 'NGO') badgeColor = 'background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0;';
+                const badgeClass = user.role === 'DONOR' ? 'bg-info-subtle text-info-emphasis border border-info-subtle' : 
+                                   (user.role === 'NGO' ? 'bg-warning-subtle text-warning-emphasis border border-warning-subtle' : 'bg-secondary text-white');
 
                 tbody.innerHTML += `
                     <tr>
                         <td class="fw-semibold">${user.name}</td>
-                        <td class="text-secondary">${user.email}</td>
-                        <td><span class="badge-status" style="${badgeColor}">${user.role}</span></td>
+                        <td class="text-muted small">${user.email}</td>
+                        <td><span class="badge ${badgeClass}">${user.role}</span></td>
                         <td class="text-end">
-                            <button class="btn btn-sm btn-link text-danger p-0" onclick="deleteUser(${user.id})" title="Delete Account">
+                            <button class="btn btn-sm btn-link text-danger p-0" onclick="deleteUser(${user.id})" title="Delete User">
                                 <i class="fa-regular fa-trash-can"></i>
                             </button>
                         </td>
@@ -821,10 +617,10 @@
             document.getElementById('stat-ngos').textContent = ngoCount;
 
             if (allUsers.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="4" class="text-center py-4 text-muted">No organizations registered yet. Use "Load Demo Data" above to initialize.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="4" class="text-center py-4 text-muted">No users registered yet. Register an account to begin.</td></tr>';
             }
         } catch (err) {
-            console.error('Failed to load user directory:', err);
+            console.error('Failed to load users:', err);
         }
     }
 
@@ -840,11 +636,11 @@
             if (donations.length === 0) {
                 container.innerHTML = `
                     <div class="col-12 text-center py-5">
-                        <div class="text-muted mb-2"><i class="fa-solid fa-box-archive fs-3"></i></div>
-                        <h6 class="fw-semibold text-dark">No Active Surplus Listings Found</h6>
-                        <p class="text-muted small" style="max-width: 450px; margin: 0 auto 1.25rem;">There are currently no open food donations awaiting allocation. You can list a surplus batch or populate demonstration records.</p>
-                        <button class="btn btn-sm btn-custom-secondary" onclick="document.getElementById('tab-dispatch').click()">
-                            Create New Listing
+                        <i class="fa-solid fa-bowl-food fs-1 text-muted mb-3 d-block"></i>
+                        <h5 class="fw-bold text-dark">No Food Donations Available Right Now</h5>
+                        <p class="text-muted small">Be the first to list surplus food for collection.</p>
+                        <button class="btn btn-sm btn-success rounded-pill px-3" onclick="document.getElementById('donate-tab').click()">
+                            <i class="fa-solid fa-plus me-1"></i> Post Food Donation
                         </button>
                     </div>
                 `;
@@ -853,39 +649,39 @@
 
             container.innerHTML = '';
             donations.forEach(d => {
-                const safeDate = d.safeUntil ? new Date(d.safeUntil).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' }) : 'Unspecified';
-                const donorName = d.donor ? d.donor.name : 'Institutional Donor';
+                const safeDate = d.safeUntil ? new Date(d.safeUntil).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' }) : 'N/A';
+                const donorName = d.donor ? d.donor.name : 'Generous Donor';
 
                 container.innerHTML += `
                     <div class="col-md-6 col-lg-4">
-                        <div class="inventory-card">
+                        <div class="card p-3 food-card">
                             <div class="d-flex justify-content-between align-items-start mb-2">
-                                <h3 class="inventory-title">${d.foodName}</h3>
-                                <span class="badge-status status-available">${d.status}</span>
+                                <h5 class="card-title fw-bold text-dark mb-0">${d.foodName}</h5>
+                                <span class="status-badge status-available">${d.status}</span>
                             </div>
-                            <p class="inventory-desc">${d.description || 'Verified surplus batch available for distribution.'}</p>
+                            <p class="text-muted small mb-3 flex-grow-1">${d.description || 'No additional description provided.'}</p>
                             
-                            <div class="info-grid">
-                                <div class="info-row">
-                                    <span class="info-label">Batch Volume:</span>
-                                    <span class="info-val">${d.quantity}</span>
+                            <div class="bg-light p-3 rounded mb-3 small border border-light-subtle">
+                                <div class="mb-1">
+                                    <i class="fa-solid fa-boxes-stacked text-primary me-2"></i>
+                                    <strong>Quantity:</strong> ${d.quantity}
                                 </div>
-                                <div class="info-row">
-                                    <span class="info-label">Pickup Facility:</span>
-                                    <span class="info-val text-truncate" style="max-width: 170px;" title="${d.pickupLocation}">${d.pickupLocation}</span>
+                                <div class="mb-1 text-truncate">
+                                    <i class="fa-solid fa-location-dot text-danger me-2"></i>
+                                    <strong>Pickup:</strong> ${d.pickupLocation}
                                 </div>
-                                <div class="info-row">
-                                    <span class="info-label">Safe Window:</span>
-                                    <span class="info-val">${safeDate}</span>
+                                <div class="mb-1 text-warning-emphasis">
+                                    <i class="fa-regular fa-clock me-2"></i>
+                                    <strong>Safe Until:</strong> ${safeDate}
                                 </div>
-                                <div class="info-row">
-                                    <span class="info-label">Provider:</span>
-                                    <span class="info-val">${donorName}</span>
+                                <div>
+                                    <i class="fa-solid fa-building text-secondary me-2"></i>
+                                    <strong>Donor:</strong> ${donorName}
                                 </div>
                             </div>
 
-                            <button class="btn btn-custom-primary w-100" onclick="openRequestModal(${d.id}, '${d.foodName.replace(/'/g, "\\'")}')">
-                                Claim for Allocation
+                            <button class="btn btn-primary w-100 rounded-pill fw-semibold" onclick="openRequestModal(${d.id}, '${d.foodName.replace(/'/g, "\\'")}')">
+                                <i class="fa-solid fa-hand-holding-heart me-1"></i> Request This Food
                             </button>
                         </div>
                     </div>
@@ -893,11 +689,11 @@
             });
         } catch (err) {
             console.error(err);
-            container.innerHTML = `<div class="col-12 text-center text-danger py-4">Unable to retrieve active inventory. Verify database connection.</div>`;
+            container.innerHTML = `<div class="col-12 text-center text-danger py-4">Failed to load food listings. Please try again.</div>`;
         }
     }
 
-    // Modal Trigger
+    // Open Request Modal
     function openRequestModal(donationId, foodName) {
         document.getElementById('modal-donation-id').value = donationId;
         document.getElementById('modal-food-name').textContent = foodName;
@@ -905,7 +701,7 @@
         requestModalInstance.show();
     }
 
-    // Submit Request
+    // Submit Food Request
     async function submitFoodRequest(e) {
         e.preventDefault();
         const donationId = document.getElementById('modal-donation-id').value;
@@ -913,7 +709,7 @@
         const message = document.getElementById('modal-message').value;
 
         if (!receiverId) {
-            showToast('Please select a verified recipient NGO.', true);
+            showToast('Please select an NGO account', true);
             return;
         }
 
@@ -926,25 +722,24 @@
 
             const data = await res.json();
             if (!res.ok) {
-                showToast(data.message || 'Unable to process allocation request.', true);
+                showToast(data.message || 'Failed to submit request', true);
                 return;
             }
 
             requestModalInstance.hide();
-            showToast('Allocation claim submitted. Awaiting donor confirmation.');
+            showToast('Food requested successfully! Donor has been notified.');
             loadAvailableDonations();
-            loadRequestStats();
         } catch (err) {
-            showToast('Network error processing claim.', true);
+            showToast('Network error while submitting request', true);
         }
     }
 
-    // Create Donation
+    // Handle Create Donation
     async function handleCreateDonation(e) {
         e.preventDefault();
         const donorId = document.getElementById('donor-select').value;
         if (!donorId) {
-            showToast('Please specify an authorized donor organization.', true);
+            showToast('Please select a donor account', true);
             return;
         }
 
@@ -965,38 +760,23 @@
 
             const data = await res.json();
             if (!res.ok) {
-                showToast(data.message || 'Failed to register surplus inventory.', true);
+                showToast(data.message || 'Failed to create donation', true);
                 return;
             }
 
-            showToast('Inventory batch listed successfully.');
+            showToast('Food donation listed successfully!');
             document.getElementById('donation-form').reset();
-            document.getElementById('tab-inventory').click();
+            document.getElementById('browse-tab').click();
             loadAvailableDonations();
         } catch (err) {
-            showToast('Network error creating listing.', true);
+            showToast('Network error while posting donation', true);
         }
     }
 
-    // Request Stats Counter
-    async function loadRequestStats() {
-        try {
-            const res = await fetch(`${API_BASE}/donations`);
-            const donations = await res.json();
-            let count = 0;
-            for (const d of donations) {
-                const rRes = await fetch(`${API_BASE}/requests/donation/${d.id}`);
-                const reqs = await rRes.json();
-                if (Array.isArray(reqs)) count += reqs.length;
-            }
-            document.getElementById('stat-requests').textContent = count;
-        } catch (e) {}
-    }
-
-    // Load Requests table
+    // Load Requests
     async function loadRequests() {
         const tbody = document.getElementById('requests-table-body');
-        tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4 text-muted"><div class="spinner-border spinner-border-sm text-secondary mb-1"></div> Synchronizing allocation records...</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4"><div class="spinner-border text-primary spinner-border-sm"></div> Loading requests...</td></tr>';
         
         try {
             const donRes = await fetch(`${API_BASE}/donations`);
@@ -1011,61 +791,59 @@
                 }
             }
 
-            document.getElementById('stat-requests').textContent = allRequests.length;
-
             if (allRequests.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4 text-muted">No pending or historical allocations found in system.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4 text-muted">No food requests made yet.</td></tr>';
                 return;
             }
 
             tbody.innerHTML = '';
             allRequests.forEach(r => {
-                const foodTitle = r.donation ? r.donation.foodName : 'Batch #' + r.id;
-                const ngoName = r.receiver ? r.receiver.name : 'Recipient NGO';
+                const foodTitle = r.donation ? r.donation.foodName : 'Donation #' + r.id;
+                const ngoName = r.receiver ? r.receiver.name : 'NGO';
 
-                let statusClass = 'status-available';
-                if (r.status === 'PENDING') statusClass = 'status-requested';
-                if (r.status === 'APPROVED') statusClass = 'status-approved';
-                if (r.status === 'COMPLETED') statusClass = 'status-completed';
-                if (r.status === 'REJECTED') statusClass = 'status-rejected';
+                let statusBadge = 'status-available';
+                if (r.status === 'PENDING') statusBadge = 'status-requested';
+                if (r.status === 'APPROVED') statusBadge = 'status-approved';
+                if (r.status === 'COMPLETED') statusBadge = 'status-completed';
+                if (r.status === 'REJECTED') statusBadge = 'status-rejected';
 
                 let actionBtns = '';
                 if (r.status === 'PENDING') {
                     actionBtns = `
-                        <button class="btn btn-sm btn-custom-primary me-1 py-1 px-2" onclick="updateReqStatus(${r.id}, 'APPROVED')" style="font-size: 0.775rem;">
-                            Approve
+                        <button class="btn btn-sm btn-success me-1 px-3 rounded-pill" onclick="updateReqStatus(${r.id}, 'APPROVED')">
+                            <i class="fa-solid fa-check"></i> Approve
                         </button>
-                        <button class="btn btn-sm btn-custom-secondary text-danger py-1 px-2" onclick="updateReqStatus(${r.id}, 'REJECTED')" style="font-size: 0.775rem;">
-                            Reject
+                        <button class="btn btn-sm btn-outline-danger px-3 rounded-pill" onclick="updateReqStatus(${r.id}, 'REJECTED')">
+                            <i class="fa-solid fa-xmark"></i> Reject
                         </button>
                     `;
                 } else if (r.status === 'APPROVED') {
                     actionBtns = `
-                        <button class="btn btn-sm btn-custom-secondary text-success py-1 px-2" onclick="updateReqStatus(${r.id}, 'COMPLETED')" style="font-size: 0.775rem;">
-                            Mark Fulfilled
+                        <button class="btn btn-sm btn-primary px-3 rounded-pill" onclick="updateReqStatus(${r.id}, 'COMPLETED')">
+                            <i class="fa-solid fa-circle-check"></i> Mark Completed
                         </button>
                     `;
                 } else {
-                    actionBtns = `<span class="text-muted small">Closed</span>`;
+                    actionBtns = `<span class="text-muted small">${r.status}</span>`;
                 }
 
                 tbody.innerHTML += `
                     <tr>
-                        <td class="text-muted" style="font-size: 0.8125rem; font-family: monospace;">#${r.id}</td>
+                        <td class="fw-bold">#${r.id}</td>
                         <td class="fw-semibold">${foodTitle}</td>
-                        <td><span class="badge-status status-requested">${ngoName}</span></td>
-                        <td class="text-secondary small" style="max-width: 250px;">${r.message || '—'}</td>
-                        <td><span class="badge-status ${statusClass}">${r.status}</span></td>
+                        <td><span class="badge bg-light text-dark border">${ngoName}</span></td>
+                        <td class="small text-muted">${r.message || '—'}</td>
+                        <td><span class="status-badge ${statusBadge}">${r.status}</span></td>
                         <td class="text-end">${actionBtns}</td>
                     </tr>
                 `;
             });
         } catch (err) {
-            tbody.innerHTML = '<tr><td colspan="6" class="text-center text-danger py-4">Error loading request table.</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="6" class="text-center text-danger py-4">Failed to load requests.</td></tr>';
         }
     }
 
-    // Update Status
+    // Update Request Status
     async function updateReqStatus(requestId, status) {
         try {
             const res = await fetch(`${API_BASE}/requests/${requestId}/status?status=${status}`, {
@@ -1073,14 +851,14 @@
             });
             const data = await res.json();
             if (!res.ok) {
-                showToast(data.message || 'Status update rejected.', true);
+                showToast(data.message || 'Failed to update status', true);
                 return;
             }
-            showToast(`Allocation status transitioned to ${status}.`);
+            showToast(`Request marked as ${status}!`);
             loadRequests();
             loadAvailableDonations();
         } catch (err) {
-            showToast('Communication error updating status.', true);
+            showToast('Error updating request status', true);
         }
     }
 
@@ -1103,72 +881,27 @@
 
             const data = await res.json();
             if (!res.ok) {
-                showToast(data.message || 'Registration failed.', true);
+                showToast(data.message || 'Registration failed', true);
                 return;
             }
 
-            showToast(`Account registered: ${data.name} [${data.role}]`);
+            showToast(`Registered successfully as ${data.role}!`);
             document.getElementById('user-form').reset();
             loadUsers();
         } catch (err) {
-            showToast('Network error during registration.', true);
+            showToast('Network error during registration', true);
         }
     }
 
     // Delete user
     async function deleteUser(id) {
-        if (!confirm('Permanently remove this organization account?')) return;
+        if (!confirm('Are you sure you want to delete this user?')) return;
         try {
             await fetch(`${API_BASE}/users/${id}`, { method: 'DELETE' });
-            showToast('Account record deleted.');
+            showToast('User deleted');
             loadUsers();
         } catch (err) {
-            showToast('Failed to delete account.', true);
-        }
-    }
-
-    // Seed Demo Data
-    async function seedSampleData() {
-        showToast('Initializing demonstration records...');
-        try {
-            const stamp = Date.now().toString().slice(-4);
-            
-            // 1. Create Corporate Donor
-            const donor1 = await fetch(`${API_BASE}/users/register`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name: 'Hilton Convention Center', email: `logistics${stamp}@hilton.com`, password: 'EnterprisePassword123', role: 'DONOR' })
-            }).then(r => r.json());
-
-            // 2. Create NGO
-            const ngo1 = await fetch(`${API_BASE}/users/register`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name: 'Metro Food Relief Network', email: `dispatch${stamp}@metrofood.org`, password: 'EnterprisePassword123', role: 'NGO' })
-            }).then(r => r.json());
-
-            // 3. Create Inventory Listing
-            const deadline = new Date();
-            deadline.setDate(deadline.getDate() + 2);
-
-            await fetch(`${API_BASE}/donations/${donor1.id}`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    foodName: 'Catered Lunch Rations (60 Portions)',
-                    quantity: '60 insulated boxed meals',
-                    pickupLocation: 'Hilton West Bay, Service Loading Dock B',
-                    safeUntil: deadline.toISOString(),
-                    description: 'Surplus buffet items prepared under commercial kitchen standards. Retained in temperature-controlled holding units.'
-                })
-            });
-
-            showToast('Demonstration data populated successfully.');
-            await loadUsers();
-            await loadAvailableDonations();
-            await loadRequestStats();
-        } catch (err) {
-            showToast('Error populating demo data: ' + err.message, true);
+            showToast('Failed to delete user', true);
         }
     }
 </script>
