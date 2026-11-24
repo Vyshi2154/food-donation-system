@@ -3,790 +3,803 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Food Share - Food Donation Platform</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Food Share | Food Donation System</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     <style>
-        .badge-available { background-color: #dcfce7; color: #166534; }
-        .badge-requested { background-color: #fef9c3; color: #854d0e; }
-        .badge-approved { background-color: #dbeafe; color: #1e40af; }
-        .badge-completed { background-color: #f3e8ff; color: #6b21a8; }
-        .badge-expired { background-color: #fee2e2; color: #991b1b; }
-        .badge-rejected { background-color: #f1f5f9; color: #475569; }
+        :root {
+            --primary-color: #10b981;
+            --primary-dark: #059669;
+            --secondary-color: #f59e0b;
+            --dark-color: #1f2937;
+            --light-bg: #f9fafb;
+        }
+        body {
+            background-color: var(--light-bg);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: #374151;
+        }
+        .navbar-brand {
+            font-weight: 700;
+            color: var(--primary-dark) !important;
+            font-size: 1.4rem;
+        }
+        .hero-banner {
+            background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+            color: white;
+            padding: 3.5rem 1rem;
+            border-radius: 0 0 2rem 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.2);
+        }
+        .nav-pills .nav-link {
+            color: #4b5563;
+            font-weight: 600;
+            border-radius: 0.75rem;
+            padding: 0.6rem 1.2rem;
+            margin: 0 0.25rem;
+            transition: all 0.2s ease;
+        }
+        .nav-pills .nav-link.active {
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+        .card {
+            border: none;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 20px -3px rgba(0, 0, 0, 0.08);
+        }
+        .food-card {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        .status-badge {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            padding: 0.35rem 0.75rem;
+            border-radius: 2rem;
+        }
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
+        }
+        .stat-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.25rem;
+            text-align: center;
+            border-bottom: 4px solid var(--primary-color);
+        }
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--dark-color);
+        }
+        .toast-container {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            z-index: 1055;
+        }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col">
+<body>
 
-    <!-- Toast Notification -->
-    <div id="toast" class="fixed top-5 right-5 z-50 transform transition-all duration-300 translate-y-[-100px] opacity-0 bg-emerald-600 text-white px-5 py-3 rounded-lg shadow-xl flex items-center space-x-3">
-        <i id="toast-icon" class="fa-solid fa-circle-check text-xl"></i>
-        <span id="toast-message" class="font-medium">Success</span>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top shadow-sm">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="#">
+            <i class="fa-solid fa-hand-holding-heart text-success me-2 fs-3"></i>
+            FoodShare Network
+        </a>
+        <div class="d-flex align-items-center">
+            <span class="badge bg-success-subtle text-success border border-success px-3 py-2 rounded-pill me-2">
+                <i class="fa-solid fa-circle text-success me-1 fa-fade" style="font-size: 0.6rem;"></i> Live System
+            </span>
+            <button class="btn btn-sm btn-outline-secondary rounded-pill" onclick="seedSampleData()">
+                <i class="fa-solid fa-wand-magic-sparkles me-1"></i> Add Demo Data
+            </button>
+        </div>
     </div>
+</nav>
 
-    <!-- Header / Navbar -->
-    <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
-            <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 rounded-xl bg-emerald-600 flex items-center justify-center text-white shadow-md shadow-emerald-200">
-                    <i class="fa-solid fa-hand-holding-heart text-xl"></i>
-                </div>
-                <div>
-                    <h1 class="text-xl font-bold text-slate-900 tracking-tight">Food<span class="text-emerald-600">Share</span></h1>
-                    <p class="text-xs text-slate-500">Food Donation & Distribution System</p>
+<!-- Hero Section -->
+<div class="hero-banner text-center">
+    <div class="container">
+        <h1 class="display-5 fw-bold mb-3">Connecting Donors & NGOs to End Food Waste</h1>
+        <p class="lead mb-4 mx-auto" style="max-width: 650px; opacity: 0.95;">
+            Restaurants, caterers, and individuals can list surplus food, and verified NGOs can claim and distribute it to people in need.
+        </p>
+        <div class="row g-3 justify-content-center mx-auto" style="max-width: 800px;">
+            <div class="col-md-4 col-6">
+                <div class="stat-card shadow-sm">
+                    <div class="stat-number text-success" id="stat-donations">0</div>
+                    <div class="text-muted small fw-semibold">Available Donations</div>
                 </div>
             </div>
-
-            <!-- Active User Indicator & Actions -->
-            <div class="flex items-center space-x-4">
-                <div class="hidden sm:flex items-center space-x-2 bg-slate-100 rounded-lg px-3 py-1.5 border border-slate-200">
-                    <span class="text-xs text-slate-500 font-medium">Acting as:</span>
-                    <select id="activeUserSelect" class="bg-transparent text-xs font-semibold text-slate-800 focus:outline-none cursor-pointer" onchange="onUserChange()">
-                        <option value="">(Select / Register User)</option>
-                    </select>
+            <div class="col-md-4 col-6">
+                <div class="stat-card shadow-sm">
+                    <div class="stat-number text-warning" id="stat-ngos">0</div>
+                    <div class="text-muted small fw-semibold">Active NGOs</div>
                 </div>
-                <button onclick="switchTab('tab-users')" class="text-xs font-semibold bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-200 px-3 py-1.5 rounded-lg transition">
-                    <i class="fa-solid fa-user-plus mr-1"></i> New User
+            </div>
+            <div class="col-md-4 col-12">
+                <div class="stat-card shadow-sm">
+                    <div class="stat-number text-primary" id="stat-donors">0</div>
+                    <div class="text-muted small fw-semibold">Registered Donors</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Main Content Area with Tabs -->
+<div class="container pb-5">
+    <!-- Navigation Tabs -->
+    <ul class="nav nav-pills justify-content-center mb-4" id="mainTab" role="tablist">
+        <li class="nav-item">
+            <button class="nav-link active" id="browse-tab" data-bs-toggle="pill" data-bs-target="#browse" type="button" role="tab">
+                <i class="fa-solid fa-utensils me-1"></i> Available Food
+            </button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" id="donate-tab" data-bs-toggle="pill" data-bs-target="#donate" type="button" role="tab">
+                <i class="fa-solid fa-plus-circle me-1"></i> Post Food Donation
+            </button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" id="requests-tab" data-bs-toggle="pill" data-bs-target="#requests" type="button" role="tab" onclick="loadRequests()">
+                <i class="fa-solid fa-truck-ramp-box me-1"></i> Requests & Approvals
+            </button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" id="users-tab" data-bs-toggle="pill" data-bs-target="#users" type="button" role="tab" onclick="loadUsers()">
+                <i class="fa-solid fa-users me-1"></i> Users & NGOs
+            </button>
+        </li>
+    </ul>
+
+    <!-- Tab Contents -->
+    <div class="tab-content" id="mainTabContent">
+
+        <!-- TAB 1: BROWSE AVAILABLE DONATIONS -->
+        <div class="tab-pane fade show active" id="browse" role="tabpanel">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4 class="fw-bold mb-0 text-dark">Available Food Listings</h4>
+                <button class="btn btn-sm btn-outline-success rounded-pill" onclick="loadAvailableDonations()">
+                    <i class="fa-solid fa-arrows-rotate me-1"></i> Refresh
                 </button>
+            </div>
+
+            <div id="donations-container" class="row g-4">
+                <div class="col-12 text-center py-5 text-muted">
+                    <div class="spinner-border text-success" role="status"></div>
+                    <p class="mt-2">Loading available food donations...</p>
+                </div>
             </div>
         </div>
 
-        <!-- Navigation Tabs -->
-        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex space-x-8 border-t border-slate-100">
-            <button onclick="switchTab('tab-overview')" id="nav-tab-overview" class="tab-btn py-3 text-sm font-semibold border-b-2 border-emerald-600 text-emerald-600">
-                <i class="fa-solid fa-chart-pie mr-1.5"></i> Overview
-            </button>
-            <button onclick="switchTab('tab-available')" id="nav-tab-available" class="tab-btn py-3 text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-800">
-                <i class="fa-solid fa-bowl-food mr-1.5"></i> Available Food (<span id="navAvailableCount">0</span>)
-            </button>
-            <button onclick="switchTab('tab-donate')" id="nav-tab-donate" class="tab-btn py-3 text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-800">
-                <i class="fa-solid fa-circle-plus mr-1.5"></i> Donate Food
-            </button>
-            <button onclick="switchTab('tab-requests')" id="nav-tab-requests" class="tab-btn py-3 text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-800">
-                <i class="fa-solid fa-list-check mr-1.5"></i> Manage Requests
-            </button>
-            <button onclick="switchTab('tab-users')" id="nav-tab-users" class="tab-btn py-3 text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-800">
-                <i class="fa-solid fa-users mr-1.5"></i> Users Directory
-            </button>
-        </nav>
-    </header>
+        <!-- TAB 2: POST A DONATION -->
+        <div class="tab-pane fade" id="donate" role="tabpanel">
+            <div class="row justify-content-center">
+                <div class="col-lg-7">
+                    <div class="card p-4 shadow-sm">
+                        <h4 class="fw-bold text-dark mb-1">
+                            <i class="fa-solid fa-basket-shopping text-success me-2"></i>Donate Surplus Food
+                        </h4>
+                        <p class="text-muted small mb-4">List leftover fresh meals or grocery supplies so local NGOs can collect them.</p>
 
-    <!-- Main Content Area -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
+                        <form id="donation-form" onsubmit="handleCreateDonation(event)">
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Select Donor <span class="text-danger">*</span></label>
+                                <select class="form-select" id="donor-select" required>
+                                    <option value="">-- Choose Donor Account --</option>
+                                </select>
+                                <div class="form-text">Must be a user registered as <strong>DONOR</strong>.</div>
+                            </div>
 
-        <!-- ==================== TAB 1: OVERVIEW ==================== -->
-        <section id="tab-overview" class="tab-content">
-            <!-- Stat Cards -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
-                    <div>
-                        <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Available Donations</p>
-                        <h3 id="statAvailable" class="text-3xl font-extrabold text-emerald-600 mt-1">0</h3>
-                    </div>
-                    <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl">
-                        <i class="fa-solid fa-utensils"></i>
-                    </div>
-                </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Food Item Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="foodName" placeholder="e.g. 40 Packed Rice & Curry Meals" required>
+                            </div>
 
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
-                    <div>
-                        <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Total Donated Items</p>
-                        <h3 id="statTotalDonations" class="text-3xl font-extrabold text-slate-800 mt-1">0</h3>
-                    </div>
-                    <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl">
-                        <i class="fa-solid fa-boxes-stacked"></i>
-                    </div>
-                </div>
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">Quantity <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="foodQuantity" placeholder="e.g. 50 boxes, 25 kg" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">Safe Until (Expiry) <span class="text-danger">*</span></label>
+                                    <input type="datetime-local" class="form-control" id="safeUntil" required>
+                                </div>
+                            </div>
 
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
-                    <div>
-                        <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Registered NGOs</p>
-                        <h3 id="statNgos" class="text-3xl font-extrabold text-purple-600 mt-1">0</h3>
-                    </div>
-                    <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-xl">
-                        <i class="fa-solid fa-hand-holding-hand"></i>
-                    </div>
-                </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Pickup Location / Address <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="pickupLocation" placeholder="e.g. 124 Grand Hotel, Station Road" required>
+                            </div>
 
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
-                    <div>
-                        <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Registered Donors</p>
-                        <h3 id="statDonors" class="text-3xl font-extrabold text-amber-600 mt-1">0</h3>
-                    </div>
-                    <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl">
-                        <i class="fa-solid fa-heart"></i>
-                    </div>
-                </div>
-            </div>
+                            <div class="mb-4">
+                                <label class="form-label fw-semibold">Description / Storage Info</label>
+                                <textarea class="form-control" id="foodDescription" rows="2" placeholder="e.g. Freshly packed from dinner buffet, kept refrigerated."></textarea>
+                            </div>
 
-            <!-- Quick Action Banners -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                <div class="bg-gradient-to-r from-emerald-600 to-teal-700 rounded-2xl p-6 text-white shadow-lg">
-                    <div class="flex items-start justify-between">
-                        <div>
-                            <span class="bg-emerald-500/30 text-emerald-100 text-xs font-bold px-2.5 py-1 rounded-full uppercase">For Restaurants & Donors</span>
-                            <h3 class="text-xl font-bold mt-2">Have surplus food to share?</h3>
-                            <p class="text-emerald-100 text-sm mt-1 mb-4">Post your excess meals before they spoil. Nearby NGOs can immediately request and distribute them.</p>
-                            <button onclick="switchTab('tab-donate')" class="bg-white text-emerald-800 font-bold px-4 py-2 rounded-xl text-sm shadow hover:bg-emerald-50 transition">
-                                <i class="fa-solid fa-plus mr-1"></i> Post Food Donation
+                            <button type="submit" class="btn btn-primary w-100 py-2 fw-bold rounded-pill">
+                                <i class="fa-solid fa-paper-plane me-1"></i> Post Food Donation
                             </button>
-                        </div>
-                        <i class="fa-solid fa-plate-wheat text-6xl text-emerald-400/40 hidden sm:block"></i>
-                    </div>
-                </div>
-
-                <div class="bg-gradient-to-r from-indigo-600 to-purple-700 rounded-2xl p-6 text-white shadow-lg">
-                    <div class="flex items-start justify-between">
-                        <div>
-                            <span class="bg-indigo-500/30 text-indigo-100 text-xs font-bold px-2.5 py-1 rounded-full uppercase">For NGOs & Shelters</span>
-                            <h3 class="text-xl font-bold mt-2">Need meals for distribution?</h3>
-                            <p class="text-indigo-100 text-sm mt-1 mb-4">Browse currently available donations in real-time and place requests instantly.</p>
-                            <button onclick="switchTab('tab-available')" class="bg-white text-indigo-800 font-bold px-4 py-2 rounded-xl text-sm shadow hover:bg-indigo-50 transition">
-                                <i class="fa-solid fa-magnifying-glass mr-1"></i> Browse Available Food
-                            </button>
-                        </div>
-                        <i class="fa-solid fa-truck-ramp-box text-6xl text-indigo-400/40 hidden sm:block"></i>
+                        </form>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Recent Donations Preview -->
-            <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-lg font-bold text-slate-900">Recent Donations</h2>
-                    <button onclick="switchTab('tab-available')" class="text-xs font-semibold text-emerald-600 hover:text-emerald-700">View All →</button>
-                </div>
-                <div id="recentDonationsList" class="divide-y divide-slate-100">
-                    <p class="text-sm text-slate-400 py-4 text-center">Loading donations...</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- ==================== TAB 2: AVAILABLE FOOD ==================== -->
-        <section id="tab-available" class="tab-content hidden">
-            <div class="flex justify-between items-center mb-6">
-                <div>
-                    <h2 class="text-2xl font-bold text-slate-900">Available Food for Pickup</h2>
-                    <p class="text-sm text-slate-500">Only safe, non-expired donations ready for NGO request.</p>
-                </div>
-                <button onclick="loadAvailableDonations()" class="text-xs font-semibold bg-white border border-slate-200 text-slate-700 px-3 py-1.5 rounded-lg hover:bg-slate-50 shadow-sm">
-                    <i class="fa-solid fa-rotate-right mr-1"></i> Refresh
-                </button>
-            </div>
-
-            <div id="availableDonationsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Dynamically populated -->
-            </div>
-        </section>
-
-        <!-- ==================== TAB 3: DONATE FOOD FORM ==================== -->
-        <section id="tab-donate" class="tab-content hidden">
-            <div class="max-w-2xl mx-auto bg-white rounded-2xl border border-slate-200 p-8 shadow-sm">
-                <div class="flex items-center space-x-3 mb-6">
-                    <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-xl">
-                        <i class="fa-solid fa-utensils"></i>
-                    </div>
-                    <div>
-                        <h2 class="text-xl font-bold text-slate-900">Create Food Donation</h2>
-                        <p class="text-xs text-slate-500">Only registered donors can publish food donations.</p>
-                    </div>
-                </div>
-
-                <form id="donationForm" onsubmit="handleCreateDonation(event)" class="space-y-4">
-                    <div>
-                        <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Select Donor Account *</label>
-                        <select id="donationDonorSelect" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm bg-slate-50">
-                            <option value="">-- Choose Donor --</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Food Item Name *</label>
-                        <input type="text" id="foodName" required placeholder="e.g. 50 Packed Lunch Boxes (Rice & Curry)" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm">
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Quantity *</label>
-                            <input type="text" id="foodQuantity" required placeholder="e.g. 50 boxes / 20 kg" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Safe Until Date & Time *</label>
-                            <input type="datetime-local" id="foodSafeUntil" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm">
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Pickup Location / Address *</label>
-                        <input type="text" id="foodPickupLocation" required placeholder="e.g. Royal Banquet Hall, MG Road, 2nd Floor" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm">
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Description / Handling Instructions</label>
-                        <textarea id="foodDescription" rows="3" placeholder="e.g. Freshly cooked vegetarian food. Kept hot in insulated containers. Bring clean vessels." class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm"></textarea>
-                    </div>
-
-                    <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl transition shadow-md shadow-emerald-200 mt-2">
-                        <i class="fa-solid fa-paper-plane mr-1.5"></i> Publish Food Donation
+        <!-- TAB 3: REQUESTS & APPROVALS -->
+        <div class="tab-pane fade" id="requests" role="tabpanel">
+            <div class="card p-4 shadow-sm">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="fw-bold mb-0 text-dark">
+                        <i class="fa-solid fa-list-check text-primary me-2"></i>Food Requests & Status
+                    </h4>
+                    <button class="btn btn-sm btn-outline-primary rounded-pill" onclick="loadRequests()">
+                        <i class="fa-solid fa-arrows-rotate me-1"></i> Refresh
                     </button>
-                </form>
-            </div>
-        </section>
-
-        <!-- ==================== TAB 4: REQUESTS MANAGEMENT ==================== -->
-        <section id="tab-requests" class="tab-content hidden">
-            <div class="flex justify-between items-center mb-6">
-                <div>
-                    <h2 class="text-2xl font-bold text-slate-900">Donation Requests</h2>
-                    <p class="text-sm text-slate-500">Track and manage food requests made by NGOs.</p>
                 </div>
-                <button onclick="loadAllRequests()" class="text-xs font-semibold bg-white border border-slate-200 text-slate-700 px-3 py-1.5 rounded-lg hover:bg-slate-50 shadow-sm">
-                    <i class="fa-solid fa-rotate-right mr-1"></i> Refresh
-                </button>
-            </div>
+                <p class="text-muted small">Donors can approve or reject NGO requests. Once approved and handed over, mark as Completed.</p>
 
-            <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-sm">
-                        <thead class="bg-slate-50 border-b border-slate-200 text-xs font-bold text-slate-500 uppercase tracking-wider">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
                             <tr>
-                                <th class="px-6 py-3.5">Req #</th>
-                                <th class="px-6 py-3.5">Food Item</th>
-                                <th class="px-6 py-3.5">Requested By (NGO)</th>
-                                <th class="px-6 py-3.5">Donor</th>
-                                <th class="px-6 py-3.5">Status</th>
-                                <th class="px-6 py-3.5">Actions</th>
+                                <th>#</th>
+                                <th>Food Item</th>
+                                <th>Requested By (NGO)</th>
+                                <th>Message</th>
+                                <th>Status</th>
+                                <th class="text-end">Actions</th>
                             </tr>
                         </thead>
-                        <tbody id="requestsTableBody" class="divide-y divide-slate-100">
-                            <!-- Dynamically populated -->
+                        <tbody id="requests-table-body">
+                            <tr>
+                                <td colspan="6" class="text-center py-4 text-muted">Select a donation to view its requests or wait while loading...</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <!-- ==================== TAB 5: USERS DIRECTORY ==================== -->
-        <section id="tab-users" class="tab-content hidden">
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <!-- User Registration Form -->
-                <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm h-fit">
-                    <div class="flex items-center space-x-3 mb-5">
-                        <div class="w-10 h-10 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center text-xl">
-                            <i class="fa-solid fa-user-plus"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-lg font-bold text-slate-900">Register New User</h3>
-                            <p class="text-xs text-slate-500">Create a Donor or NGO profile</p>
-                        </div>
+        <!-- TAB 4: USERS & REGISTRATION -->
+        <div class="tab-pane fade" id="users" role="tabpanel">
+            <div class="row g-4">
+                <div class="col-lg-5">
+                    <div class="card p-4 shadow-sm">
+                        <h5 class="fw-bold text-dark mb-1">
+                            <i class="fa-solid fa-user-plus text-success me-2"></i>Register New Account
+                        </h5>
+                        <p class="text-muted small mb-3">Join as a Food Donor or an NGO Receiver.</p>
+
+                        <form id="user-form" onsubmit="handleRegisterUser(event)">
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Organization / Person Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="userName" placeholder="e.g. Care Food Bank" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Email Address <span class="text-danger">*</span></label>
+                                <input type="email" class="form-control" id="userEmail" placeholder="e.g. care@ngo.org" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Password <span class="text-danger">*</span></label>
+                                <input type="password" class="form-control" id="userPassword" placeholder="Minimum 6 characters" required>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label fw-semibold">Account Role <span class="text-danger">*</span></label>
+                                <select class="form-select" id="userRole" required>
+                                    <option value="DONOR">DONOR (Restaurant, Caterer, Household)</option>
+                                    <option value="NGO" selected>NGO (Charity, Food Bank, Shelter)</option>
+                                    <option value="ADMIN">ADMIN</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-success w-100 py-2 fw-bold rounded-pill">
+                                <i class="fa-solid fa-check me-1"></i> Register Account
+                            </button>
+                        </form>
                     </div>
-
-                    <form id="registerForm" onsubmit="handleRegisterUser(event)" class="space-y-4">
-                        <div>
-                            <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Organization / Person Name *</label>
-                            <input type="text" id="regName" required placeholder="e.g. City Food Bank" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm">
-                        </div>
-
-                        <div>
-                            <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Email Address *</label>
-                            <input type="email" id="regEmail" required placeholder="e.g. contact@cityfoodbank.org" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm">
-                        </div>
-
-                        <div>
-                            <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Password *</label>
-                            <input type="password" id="regPassword" required placeholder="••••••••" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm">
-                        </div>
-
-                        <div>
-                            <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Role *</label>
-                            <select id="regRole" required class="w-full px-3.5 py-2 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm bg-slate-50">
-                                <option value="DONOR">DONOR (Restaurant, Hotel, Caterer, Individual)</option>
-                                <option value="NGO">NGO (Shelter, Charity, Food Rescue)</option>
-                                <option value="ADMIN">ADMIN</option>
-                            </select>
-                        </div>
-
-                        <button type="submit" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2.5 rounded-xl transition shadow-md shadow-purple-200 text-sm">
-                            Register Account
-                        </button>
-                    </form>
                 </div>
 
-                <!-- Users List -->
-                <div class="lg:col-span-2 bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
-                    <div class="flex justify-between items-center mb-5">
-                        <h3 class="text-lg font-bold text-slate-900">All Registered Users</h3>
-                        <div class="flex space-x-2">
-                            <button onclick="filterUsers('ALL')" class="text-xs px-2.5 py-1 rounded-lg bg-slate-100 font-semibold text-slate-600 hover:bg-slate-200">All</button>
-                            <button onclick="filterUsers('DONOR')" class="text-xs px-2.5 py-1 rounded-lg bg-amber-50 font-semibold text-amber-700 hover:bg-amber-100">Donors</button>
-                            <button onclick="filterUsers('NGO')" class="text-xs px-2.5 py-1 rounded-lg bg-purple-50 font-semibold text-purple-700 hover:bg-purple-100">NGOs</button>
+                <div class="col-lg-7">
+                    <div class="card p-4 shadow-sm">
+                        <h5 class="fw-bold text-dark mb-3">
+                            <i class="fa-solid fa-address-book text-primary me-2"></i>Registered Community Members
+                        </h5>
+                        <div class="table-responsive">
+                            <table class="table table-sm table-hover align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Role</th>
+                                        <th class="text-end">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="users-table-body">
+                                    <tr><td colspan="4" class="text-center py-3 text-muted">Loading users...</td></tr>
+                                </tbody>
+                            </table>
                         </div>
-                    </div>
-
-                    <div id="usersListContainer" class="space-y-3">
-                        <!-- Dynamically populated -->
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
 
-    </main>
+    </div>
+</div>
 
-    <!-- Modal for NGO Food Request -->
-    <div id="requestModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-lg font-bold text-slate-900">Request Food Donation</h3>
-                <button onclick="closeRequestModal()" class="text-slate-400 hover:text-slate-600">
-                    <i class="fa-solid fa-xmark text-lg"></i>
-                </button>
+<!-- Modal: Request Food -->
+<div class="modal fade" id="requestModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title fw-bold">
+                    <i class="fa-solid fa-hand-holding-heart me-2"></i>Request Food Donation
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
+            <div class="modal-body p-4">
+                <p class="mb-3">You are requesting: <strong id="modal-food-name" class="text-success"></strong></p>
 
-            <div id="modalFoodDetails" class="bg-slate-50 p-3.5 rounded-xl mb-4 border border-slate-100 text-sm">
-                <!-- Food details preview -->
+                <form id="modal-request-form" onsubmit="submitFoodRequest(event)">
+                    <input type="hidden" id="modal-donation-id">
+                    
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Select Requesting NGO <span class="text-danger">*</span></label>
+                        <select class="form-select" id="modal-ngo-select" required>
+                            <option value="">-- Choose NGO Account --</option>
+                        </select>
+                        <div class="form-text">Only users registered with the <strong>NGO</strong> role can claim food.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Note / Pickup Plan</label>
+                        <textarea class="form-control" id="modal-message" rows="3" placeholder="e.g. We have a delivery van ready and can pick this up within 1 hour for our shelter."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-success w-100 py-2 fw-bold rounded-pill">
+                        Submit Food Request
+                    </button>
+                </form>
             </div>
-
-            <form onsubmit="submitFoodRequest(event)" class="space-y-4">
-                <input type="hidden" id="modalDonationId">
-                <div>
-                    <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Select Requesting NGO *</label>
-                    <select id="modalNgoSelect" required class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-sm bg-slate-50 focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                        <option value="">-- Choose NGO --</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Message to Donor (Optional)</label>
-                    <textarea id="modalRequestMessage" rows="2" placeholder="e.g. We can pick up within 45 minutes for our shelter." class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"></textarea>
-                </div>
-
-                <div class="flex space-x-3 pt-2">
-                    <button type="button" onclick="closeRequestModal()" class="flex-1 px-4 py-2 rounded-xl border border-slate-200 text-sm font-semibold text-slate-600 hover:bg-slate-50">Cancel</button>
-                    <button type="submit" class="flex-1 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold shadow-md shadow-emerald-200">Send Request</button>
-                </div>
-            </form>
         </div>
     </div>
+</div>
 
-    <!-- Footer -->
-    <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-400">
-        <p>Food Donation System &bull; Live on Render with PostgreSQL</p>
-    </footer>
+<!-- Toast for alerts -->
+<div class="toast-container">
+    <div id="liveToast" class="toast align-items-center text-white bg-dark border-0 shadow" role="alert">
+        <div class="d-flex">
+            <div class="toast-body" id="toastMessage">Action completed successfully.</div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+    </div>
+</div>
 
-    <!-- Frontend Script -->
-    <script>
-        const API_BASE = window.location.origin;
+<!-- Bootstrap 5 JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-        let allUsers = [];
-        let allDonations = [];
-        let availableDonations = [];
-        let allRequests = [];
+<script>
+    const API_BASE = window.location.origin + '/api';
+    let allUsers = [];
+    let requestModalInstance = null;
 
-        // Tab Switching
-        function switchTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('border-emerald-600', 'text-emerald-600');
-                btn.classList.add('border-transparent', 'text-slate-500');
+    document.addEventListener('DOMContentLoaded', () => {
+        requestModalInstance = new bootstrap.Modal(document.getElementById('requestModal'));
+        
+        // Set default safeUntil date in form to tomorrow
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        tomorrow.setHours(20, 0, 0, 0);
+        document.getElementById('safeUntil').value = tomorrow.toISOString().slice(0, 16);
+
+        loadUsers();
+        loadAvailableDonations();
+    });
+
+    function showToast(message, isError = false) {
+        const toastEl = document.getElementById('liveToast');
+        const toastMsg = document.getElementById('toastMessage');
+        toastMsg.textContent = message;
+        toastEl.className = `toast align-items-center text-white border-0 shadow ${isError ? 'bg-danger' : 'bg-success'}`;
+        const toast = new bootstrap.Toast(toastEl, { delay: 4000 });
+        toast.show();
+    }
+
+    // Load all users
+    async function loadUsers() {
+        try {
+            const res = await fetch(`${API_BASE}/users`);
+            allUsers = await res.json();
+            
+            // Populate donor dropdowns
+            const donorSelect = document.getElementById('donor-select');
+            donorSelect.innerHTML = '<option value="">-- Choose Donor Account --</option>';
+            
+            // Populate NGO dropdown in modal
+            const ngoSelect = document.getElementById('modal-ngo-select');
+            ngoSelect.innerHTML = '<option value="">-- Choose NGO Account --</option>';
+
+            const tbody = document.getElementById('users-table-body');
+            tbody.innerHTML = '';
+
+            let donorCount = 0;
+            let ngoCount = 0;
+
+            allUsers.forEach(user => {
+                if (user.role === 'DONOR') {
+                    donorCount++;
+                    donorSelect.innerHTML += `<option value="${user.id}">${user.name} (${user.email})</option>`;
+                } else if (user.role === 'NGO') {
+                    ngoCount++;
+                    ngoSelect.innerHTML += `<option value="${user.id}">${user.name} (${user.email})</option>`;
+                }
+
+                const badgeClass = user.role === 'DONOR' ? 'bg-info' : (user.role === 'NGO' ? 'bg-warning text-dark' : 'bg-dark');
+                tbody.innerHTML += `
+                    <tr>
+                        <td class="fw-semibold">${user.name}</td>
+                        <td class="text-muted small">${user.email}</td>
+                        <td><span class="badge ${badgeClass}">${user.role}</span></td>
+                        <td class="text-end">
+                            <button class="btn btn-sm btn-outline-danger" onclick="deleteUser(${user.id})">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
             });
 
-            document.getElementById(tabId).classList.remove('hidden');
-            const activeNav = document.getElementById('nav-' + tabId);
-            if (activeNav) {
-                activeNav.classList.add('border-emerald-600', 'text-emerald-600');
-                activeNav.classList.remove('border-transparent', 'text-slate-500');
+            document.getElementById('stat-donors').textContent = donorCount;
+            document.getElementById('stat-ngos').textContent = ngoCount;
+
+            if (allUsers.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" class="text-center py-4 text-muted">No users registered yet. Click "Add Demo Data" above!</td></tr>';
             }
-
-            if (tabId === 'tab-overview') loadOverview();
-            if (tabId === 'tab-available') loadAvailableDonations();
-            if (tabId === 'tab-requests') loadAllRequests();
-            if (tabId === 'tab-users') loadUsers();
+        } catch (err) {
+            console.error('Failed to load users:', err);
         }
+    }
 
-        // Toast Messages
-        function showToast(msg, isError = false) {
-            const toast = document.getElementById('toast');
-            const toastMsg = document.getElementById('toast-message');
-            const toastIcon = document.getElementById('toast-icon');
+    // Load available donations
+    async function loadAvailableDonations() {
+        const container = document.getElementById('donations-container');
+        try {
+            const res = await fetch(`${API_BASE}/donations/available`);
+            const donations = await res.json();
 
-            toastMsg.textContent = msg;
-            if (isError) {
-                toast.classList.remove('bg-emerald-600');
-                toast.classList.add('bg-rose-600');
-                toastIcon.className = 'fa-solid fa-triangle-exclamation text-xl';
-            } else {
-                toast.classList.remove('bg-rose-600');
-                toast.classList.add('bg-emerald-600');
-                toastIcon.className = 'fa-solid fa-circle-check text-xl';
-            }
+            document.getElementById('stat-donations').textContent = donations.length;
 
-            toast.classList.remove('translate-y-[-100px]', 'opacity-0');
-            setTimeout(() => {
-                toast.classList.add('translate-y-[-100px]', 'opacity-0');
-            }, 3500);
-        }
-
-        // Init
-        document.addEventListener('DOMContentLoaded', () => {
-            // Set default date for safeUntil to 12 hours ahead
-            const now = new Date();
-            now.setHours(now.getHours() + 12);
-            document.getElementById('foodSafeUntil').value = now.toISOString().slice(0, 16);
-
-            loadUsers();
-            loadOverview();
-            loadAvailableDonations();
-        });
-
-        // Load Users
-        async function loadUsers() {
-            try {
-                const res = await fetch(`${API_BASE}/api/users`);
-                allUsers = await res.json();
-
-                renderUsersSelect();
-                renderUsersList(allUsers);
-                updateStats();
-            } catch (err) {
-                console.error("Error loading users:", err);
-            }
-        }
-
-        function renderUsersSelect() {
-            const activeSelect = document.getElementById('activeUserSelect');
-            const donorSelect = document.getElementById('donationDonorSelect');
-            const modalNgoSelect = document.getElementById('modalNgoSelect');
-
-            activeSelect.innerHTML = '<option value="">(Select Acting User)</option>';
-            donorSelect.innerHTML = '<option value="">-- Choose Donor --</option>';
-            modalNgoSelect.innerHTML = '<option value="">-- Choose NGO --</option>';
-
-            allUsers.forEach(u => {
-                const opt1 = new Option(`${u.name} (${u.role})`, u.id);
-                activeSelect.add(opt1);
-
-                if (u.role === 'DONOR') {
-                    donorSelect.add(new Option(u.name, u.id));
-                }
-                if (u.role === 'NGO') {
-                    modalNgoSelect.add(new Option(u.name, u.id));
-                }
-            });
-        }
-
-        function renderUsersList(users) {
-            const container = document.getElementById('usersListContainer');
-            if (!users || users.length === 0) {
-                container.innerHTML = '<p class="text-sm text-slate-400 py-6 text-center">No users registered yet.</p>';
+            if (donations.length === 0) {
+                container.innerHTML = `
+                    <div class="col-12 text-center py-5">
+                        <i class="fa-solid fa-bowl-food fs-1 text-muted mb-3 d-block"></i>
+                        <h5 class="fw-bold text-dark">No Food Donations Available Right Now</h5>
+                        <p class="text-muted">Be the first to list surplus food, or click "Add Demo Data" at the top!</p>
+                        <button class="btn btn-sm btn-success rounded-pill" onclick="document.getElementById('donate-tab').click()">
+                            <i class="fa-solid fa-plus me-1"></i> Donate Food Now
+                        </button>
+                    </div>
+                `;
                 return;
             }
 
-            container.innerHTML = users.map(u => `
-                <div class="flex items-center justify-between p-3.5 bg-slate-50 hover:bg-slate-100 rounded-xl transition border border-slate-100">
-                    <div class="flex items-center space-x-3">
-                        <div class="w-9 h-9 rounded-lg ${u.role === 'DONOR' ? 'bg-amber-100 text-amber-700' : 'bg-purple-100 text-purple-700'} flex items-center justify-center font-bold text-xs">
-                            ${u.role === 'DONOR' ? 'DON' : 'NGO'}
-                        </div>
-                        <div>
-                            <h4 class="text-sm font-bold text-slate-900">${u.name}</h4>
-                            <p class="text-xs text-slate-400">${u.email}</p>
-                        </div>
-                    </div>
-                    <span class="text-xs px-2.5 py-1 rounded-full font-semibold ${u.role === 'DONOR' ? 'bg-amber-100 text-amber-800' : 'bg-purple-100 text-purple-800'}">
-                        ${u.role}
-                    </span>
-                </div>
-            `).join('');
-        }
+            container.innerHTML = '';
+            donations.forEach(d => {
+                const safeDate = d.safeUntil ? new Date(d.safeUntil).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' }) : 'N/A';
+                const donorName = d.donor ? d.donor.name : 'Generous Donor';
 
-        function filterUsers(role) {
-            if (role === 'ALL') renderUsersList(allUsers);
-            else renderUsersList(allUsers.filter(u => u.role === role));
-        }
-
-        // Register User
-        async function handleRegisterUser(e) {
-            e.preventDefault();
-            const body = {
-                name: document.getElementById('regName').value,
-                email: document.getElementById('regEmail').value,
-                password: document.getElementById('regPassword').value,
-                role: document.getElementById('regRole').value
-            };
-
-            try {
-                const res = await fetch(`${API_BASE}/api/users/register`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(body)
-                });
-
-                if (!res.ok) {
-                    const errData = await res.json();
-                    throw new Error(errData.message || 'Registration failed');
-                }
-
-                showToast(`User "${body.name}" registered successfully!`);
-                document.getElementById('registerForm').reset();
-                await loadUsers();
-            } catch (err) {
-                showToast(err.message, true);
-            }
-        }
-
-        // Load Available Donations
-        async function loadAvailableDonations() {
-            try {
-                const res = await fetch(`${API_BASE}/api/donations/available`);
-                availableDonations = await res.json();
-                document.getElementById('navAvailableCount').textContent = availableDonations.length;
-
-                const grid = document.getElementById('availableDonationsGrid');
-                if (!availableDonations || availableDonations.length === 0) {
-                    grid.innerHTML = `
-                        <div class="col-span-full py-12 text-center bg-white rounded-2xl border border-slate-200">
-                            <i class="fa-solid fa-plate-wheat text-4xl text-slate-300 mb-3"></i>
-                            <h4 class="text-base font-bold text-slate-700">No Food Donations Available Right Now</h4>
-                            <p class="text-xs text-slate-400 mt-1">Check back later or register as a donor to post surplus meals!</p>
-                            <button onclick="switchTab('tab-donate')" class="mt-4 bg-emerald-600 text-white text-xs font-bold px-4 py-2 rounded-xl">
-                                Donate Food Now
-                            </button>
-                        </div>
-                    `;
-                    return;
-                }
-
-                grid.innerHTML = availableDonations.map(d => {
-                    const safeDate = new Date(d.safeUntil);
-                    return `
-                        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm hover:shadow-md transition flex flex-col justify-between">
-                            <div>
-                                <div class="flex justify-between items-start mb-2">
-                                    <span class="text-xs font-bold px-2.5 py-0.5 rounded-full badge-${d.status.toLowerCase()}">${d.status}</span>
-                                    <span class="text-xs text-slate-400"><i class="fa-regular fa-clock mr-1"></i>Safe until: ${safeDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+                container.innerHTML += `
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card p-3 food-card">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <h5 class="card-title fw-bold text-dark mb-0">${d.foodName}</h5>
+                                <span class="badge bg-success status-badge">${d.status}</span>
+                            </div>
+                            <p class="text-muted small mb-3 flex-grow-1">${d.description || 'No additional description provided.'}</p>
+                            
+                            <div class="bg-light p-2 rounded mb-3 small">
+                                <div class="mb-1">
+                                    <i class="fa-solid fa-cubes-stacked text-primary me-2"></i>
+                                    <strong>Qty:</strong> ${d.quantity}
                                 </div>
-                                <h3 class="text-lg font-bold text-slate-900 mt-1">${d.foodName}</h3>
-                                <p class="text-sm font-semibold text-emerald-600 mt-0.5">${d.quantity}</p>
-                                <p class="text-xs text-slate-500 mt-2 line-clamp-2">${d.description || 'No special notes.'}</p>
-
-                                <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
-                                    <div><i class="fa-solid fa-user-tag text-slate-400 mr-1"></i>${d.donor?.name || 'Donor'}</div>
-                                    <div><i class="fa-solid fa-location-dot text-slate-400 mr-1"></i>${d.pickupLocation}</div>
+                                <div class="mb-1 text-truncate">
+                                    <i class="fa-solid fa-location-dot text-danger me-2"></i>
+                                    <strong>Pickup:</strong> ${d.pickupLocation}
+                                </div>
+                                <div class="mb-1 text-warning-emphasis">
+                                    <i class="fa-regular fa-clock me-2"></i>
+                                    <strong>Safe until:</strong> ${safeDate}
+                                </div>
+                                <div>
+                                    <i class="fa-solid fa-user-heart text-success me-2"></i>
+                                    <strong>Donor:</strong> ${donorName}
                                 </div>
                             </div>
 
-                            <button onclick="openRequestModal(${d.id}, '${d.foodName.replace(/'/g, "\\'")}', '${d.quantity}', '${d.pickupLocation.replace(/'/g, "\\'")}')" class="mt-4 w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 rounded-xl text-xs transition shadow-sm">
-                                <i class="fa-solid fa-hand-holding-heart mr-1"></i> Request This Food (NGO)
+                            <button class="btn btn-success w-100 rounded-pill fw-semibold" onclick="openRequestModal(${d.id}, '${d.foodName.replace(/'/g, "\\'")}')">
+                                <i class="fa-solid fa-hand-holding-hand me-1"></i> Request This Food
                             </button>
                         </div>
-                    `;
-                }).join('');
-
-            } catch (err) {
-                console.error("Error loading available donations:", err);
-            }
-        }
-
-        // Load Overview
-        async function loadOverview() {
-            try {
-                const [allRes, availRes] = await Promise.all([
-                    fetch(`${API_BASE}/api/donations`),
-                    fetch(`${API_BASE}/api/donations/available`)
-                ]);
-                allDonations = await allRes.json();
-                availableDonations = await availRes.json();
-
-                updateStats();
-
-                // Recent preview
-                const list = document.getElementById('recentDonationsList');
-                if (!allDonations || allDonations.length === 0) {
-                    list.innerHTML = '<p class="text-sm text-slate-400 py-6 text-center">No donations created yet.</p>';
-                    return;
-                }
-
-                const recent = allDonations.slice(-5).reverse();
-                list.innerHTML = recent.map(d => `
-                    <div class="py-3 flex items-center justify-between">
-                        <div>
-                            <h4 class="text-sm font-bold text-slate-900">${d.foodName} <span class="text-xs text-slate-400">(${d.quantity})</span></h4>
-                            <p class="text-xs text-slate-400">Donor: ${d.donor?.name || 'Unknown'} &bull; ${d.pickupLocation}</p>
-                        </div>
-                        <span class="text-xs font-bold px-2.5 py-0.5 rounded-full badge-${d.status.toLowerCase()}">${d.status}</span>
                     </div>
-                `).join('');
-            } catch (err) {
-                console.error("Error loading overview:", err);
-            }
+                `;
+            });
+        } catch (err) {
+            console.error(err);
+            container.innerHTML = `<div class="col-12 text-center text-danger py-4">Failed to load food listings. Please try again.</div>`;
+        }
+    }
+
+    // Open Request Modal
+    function openRequestModal(donationId, foodName) {
+        document.getElementById('modal-donation-id').value = donationId;
+        document.getElementById('modal-food-name').textContent = foodName;
+        document.getElementById('modal-message').value = '';
+        requestModalInstance.show();
+    }
+
+    // Submit Food Request
+    async function submitFoodRequest(e) {
+        e.preventDefault();
+        const donationId = document.getElementById('modal-donation-id').value;
+        const receiverId = document.getElementById('modal-ngo-select').value;
+        const message = document.getElementById('modal-message').value;
+
+        if (!receiverId) {
+            showToast('Please select an NGO account', true);
+            return;
         }
 
-        function updateStats() {
-            document.getElementById('statAvailable').textContent = availableDonations.length;
-            document.getElementById('statTotalDonations').textContent = allDonations.length;
-            document.getElementById('statNgos').textContent = allUsers.filter(u => u.role === 'NGO').length;
-            document.getElementById('statDonors').textContent = allUsers.filter(u => u.role === 'DONOR').length;
-        }
+        try {
+            const res = await fetch(`${API_BASE}/requests`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ donationId: Number(donationId), receiverId: Number(receiverId), message: message })
+            });
 
-        // Create Donation
-        async function handleCreateDonation(e) {
-            e.preventDefault();
-            const donorId = document.getElementById('donationDonorSelect').value;
-            if (!donorId) {
-                showToast("Please choose a donor account", true);
+            const data = await res.json();
+            if (!res.ok) {
+                showToast(data.message || 'Failed to submit request', true);
                 return;
             }
 
-            const body = {
-                foodName: document.getElementById('foodName').value,
-                quantity: document.getElementById('foodQuantity').value,
-                safeUntil: document.getElementById('foodSafeUntil').value + ":00",
-                pickupLocation: document.getElementById('foodPickupLocation').value,
-                description: document.getElementById('foodDescription').value
-            };
+            requestModalInstance.hide();
+            showToast('Food requested successfully! Donor has been notified.');
+            loadAvailableDonations();
+        } catch (err) {
+            showToast('Network error while submitting request', true);
+        }
+    }
 
-            try {
-                const res = await fetch(`${API_BASE}/api/donations/${donorId}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(body)
-                });
-
-                if (!res.ok) {
-                    const err = await res.json();
-                    throw new Error(err.message || "Failed to create donation");
-                }
-
-                showToast("Food donation published successfully!");
-                document.getElementById('donationForm').reset();
-                switchTab('tab-available');
-            } catch (err) {
-                showToast(err.message, true);
-            }
+    // Handle Create Donation
+    async function handleCreateDonation(e) {
+        e.preventDefault();
+        const donorId = document.getElementById('donor-select').value;
+        if (!donorId) {
+            showToast('Please select a donor account', true);
+            return;
         }
 
-        // Modal for Requesting Food
-        function openRequestModal(id, foodName, qty, loc) {
-            document.getElementById('modalDonationId').value = id;
-            document.getElementById('modalFoodDetails').innerHTML = `
-                <div class="font-bold text-slate-900">${foodName}</div>
-                <div class="text-xs text-slate-500 mt-1">Quantity: <span class="font-semibold text-emerald-600">${qty}</span> | Location: ${loc}</div>
-            `;
-            document.getElementById('requestModal').classList.remove('hidden');
-        }
+        const payload = {
+            foodName: document.getElementById('foodName').value,
+            quantity: document.getElementById('foodQuantity').value,
+            pickupLocation: document.getElementById('pickupLocation').value,
+            safeUntil: document.getElementById('safeUntil').value,
+            description: document.getElementById('foodDescription').value
+        };
 
-        function closeRequestModal() {
-            document.getElementById('requestModal').classList.add('hidden');
-        }
+        try {
+            const res = await fetch(`${API_BASE}/donations/${donorId}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
 
-        async function submitFoodRequest(e) {
-            e.preventDefault();
-            const donationId = document.getElementById('modalDonationId').value;
-            const receiverId = document.getElementById('modalNgoSelect').value;
-            const message = document.getElementById('modalRequestMessage').value;
-
-            if (!receiverId) {
-                showToast("Please select your NGO", true);
+            const data = await res.json();
+            if (!res.ok) {
+                showToast(data.message || 'Failed to create donation', true);
                 return;
             }
 
-            try {
-                const res = await fetch(`${API_BASE}/api/requests`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ donationId: Number(donationId), receiverId: Number(receiverId), message: message })
-                });
-
-                if (!res.ok) {
-                    const err = await res.json();
-                    throw new Error(err.message || "Failed to request food");
-                }
-
-                showToast("Request submitted successfully!");
-                closeRequestModal();
-                switchTab('tab-requests');
-            } catch (err) {
-                showToast(err.message, true);
-            }
+            showToast('Food donation listed successfully!');
+            document.getElementById('donation-form').reset();
+            // Switch to browse tab
+            document.getElementById('browse-tab').click();
+            loadAvailableDonations();
+        } catch (err) {
+            showToast('Network error while posting donation', true);
         }
+    }
 
-        // Load All Requests
-        async function loadAllRequests() {
-            try {
-                // Fetch requests for all donations
-                if (!allDonations || allDonations.length === 0) {
-                    const res = await fetch(`${API_BASE}/api/donations`);
-                    allDonations = await res.json();
+    // Load Requests for all donations
+    async function loadRequests() {
+        const tbody = document.getElementById('requests-table-body');
+        tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4"><div class="spinner-border text-primary spinner-border-sm"></div> Loading requests...</td></tr>';
+        
+        try {
+            const donRes = await fetch(`${API_BASE}/donations`);
+            const donations = await donRes.json();
+
+            let allRequests = [];
+            for (const d of donations) {
+                const reqRes = await fetch(`${API_BASE}/requests/donation/${d.id}`);
+                const reqs = await reqRes.json();
+                if (Array.isArray(reqs)) {
+                    allRequests = allRequests.concat(reqs);
+                }
+            }
+
+            if (allRequests.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4 text-muted">No food requests made yet.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = '';
+            allRequests.forEach(r => {
+                const foodTitle = r.donation ? r.donation.foodName : 'Donation #' + r.id;
+                const ngoName = r.receiver ? r.receiver.name : 'NGO';
+                const statusBadge = r.status === 'APPROVED' ? 'bg-success' : (r.status === 'PENDING' ? 'bg-warning text-dark' : (r.status === 'COMPLETED' ? 'bg-primary' : 'bg-secondary'));
+
+                let actionBtns = '';
+                if (r.status === 'PENDING') {
+                    actionBtns = `
+                        <button class="btn btn-sm btn-success me-1" onclick="updateReqStatus(${r.id}, 'APPROVED')">
+                            <i class="fa-solid fa-check"></i> Approve
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger" onclick="updateReqStatus(${r.id}, 'REJECTED')">
+                            <i class="fa-solid fa-xmark"></i> Reject
+                        </button>
+                    `;
+                } else if (r.status === 'APPROVED') {
+                    actionBtns = `
+                        <button class="btn btn-sm btn-primary" onclick="updateReqStatus(${r.id}, 'COMPLETED')">
+                            <i class="fa-solid fa-circle-check"></i> Mark Completed
+                        </button>
+                    `;
+                } else {
+                    actionBtns = `<span class="text-muted small">${r.status}</span>`;
                 }
 
-                let requests = [];
-                for (let d of allDonations) {
-                    const rRes = await fetch(`${API_BASE}/api/requests/donation/${d.id}`);
-                    if (rRes.ok) {
-                        const dReqs = await rRes.json();
-                        requests = requests.concat(dReqs);
-                    }
-                }
-
-                const tbody = document.getElementById('requestsTableBody');
-                if (requests.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="6" class="px-6 py-8 text-center text-slate-400">No requests placed yet.</td></tr>';
-                    return;
-                }
-
-                tbody.innerHTML = requests.map(r => `
-                    <tr class="hover:bg-slate-50 transition">
-                        <td class="px-6 py-4 font-mono text-xs text-slate-500">#${r.id}</td>
-                        <td class="px-6 py-4">
-                            <div class="font-bold text-slate-900">${r.donation?.foodName || 'Item'}</div>
-                            <div class="text-xs text-slate-400">${r.donation?.quantity || ''}</div>
-                        </td>
-                        <td class="px-6 py-4">
-                            <span class="font-semibold text-purple-700">${r.receiver?.name || 'NGO'}</span>
-                            <div class="text-xs text-slate-400 italic">"${r.message || 'No message'}"</div>
-                        </td>
-                        <td class="px-6 py-4 text-xs text-slate-600">${r.donation?.donor?.name || 'Donor'}</td>
-                        <td class="px-6 py-4">
-                            <span class="text-xs font-bold px-2.5 py-0.5 rounded-full badge-${r.status.toLowerCase()}">${r.status}</span>
-                        </td>
-                        <td class="px-6 py-4">
-                            ${r.status === 'PENDING' ? `
-                                <div class="flex space-x-1.5">
-                                    <button onclick="updateRequestStatus(${r.id}, 'APPROVED')" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-2.5 py-1 rounded-lg font-semibold">Approve</button>
-                                    <button onclick="updateRequestStatus(${r.id}, 'REJECTED')" class="bg-rose-600 hover:bg-rose-700 text-white text-xs px-2.5 py-1 rounded-lg font-semibold">Reject</button>
-                                </div>
-                            ` : r.status === 'APPROVED' ? `
-                                <button onclick="updateRequestStatus(${r.id}, 'COMPLETED')" class="bg-purple-600 hover:bg-purple-700 text-white text-xs px-2.5 py-1 rounded-lg font-semibold">Mark Collected</button>
-                            ` : `
-                                <span class="text-xs text-slate-400">Completed</span>
-                            `}
-                        </td>
+                tbody.innerHTML += `
+                    <tr>
+                        <td class="fw-bold">#${r.id}</td>
+                        <td>${foodTitle}</td>
+                        <td><span class="badge bg-light text-dark border">${ngoName}</span></td>
+                        <td class="small text-muted">${r.message || 'No note'}</td>
+                        <td><span class="badge ${statusBadge}">${r.status}</span></td>
+                        <td class="text-end">${actionBtns}</td>
                     </tr>
-                `).join('');
-            } catch (err) {
-                console.error("Error loading requests:", err);
-            }
+                `;
+            });
+        } catch (err) {
+            tbody.innerHTML = '<tr><td colspan="6" class="text-center text-danger py-4">Failed to load requests.</td></tr>';
         }
+    }
 
-        async function updateRequestStatus(reqId, status) {
-            try {
-                const res = await fetch(`${API_BASE}/api/requests/${reqId}/status?status=${status}`, {
-                    method: 'PATCH'
-                });
-
-                if (!res.ok) {
-                    const err = await res.json();
-                    throw new Error(err.message || 'Failed to update request');
-                }
-
-                showToast(`Request marked as ${status}!`);
-                loadAllRequests();
-                loadAvailableDonations();
-            } catch (err) {
-                showToast(err.message, true);
+    // Update Request Status
+    async function updateReqStatus(requestId, status) {
+        try {
+            const res = await fetch(`${API_BASE}/requests/${requestId}/status?status=${status}`, {
+                method: 'PATCH'
+            });
+            const data = await res.json();
+            if (!res.ok) {
+                showToast(data.message || 'Failed to update status', true);
+                return;
             }
+            showToast(`Request marked as ${status}!`);
+            loadRequests();
+            loadAvailableDonations();
+        } catch (err) {
+            showToast('Error updating request status', true);
         }
-    </script>
+    }
+
+    // Register User
+    async function handleRegisterUser(e) {
+        e.preventDefault();
+        const payload = {
+            name: document.getElementById('userName').value,
+            email: document.getElementById('userEmail').value,
+            password: document.getElementById('userPassword').value,
+            role: document.getElementById('userRole').value
+        };
+
+        try {
+            const res = await fetch(`${API_BASE}/users/register`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            const data = await res.json();
+            if (!res.ok) {
+                showToast(data.message || 'Registration failed', true);
+                return;
+            }
+
+            showToast(`Registered successfully as ${data.role}!`);
+            document.getElementById('user-form').reset();
+            loadUsers();
+        } catch (err) {
+            showToast('Network error during registration', true);
+        }
+    }
+
+    // Delete user
+    async function deleteUser(id) {
+        if (!confirm('Are you sure you want to delete this user?')) return;
+        try {
+            await fetch(`${API_BASE}/users/${id}`, { method: 'DELETE' });
+            showToast('User deleted');
+            loadUsers();
+        } catch (err) {
+            showToast('Failed to delete user', true);
+        }
+    }
+
+    // Seed Sample Data Helper
+    async function seedSampleData() {
+        showToast('Adding demo Donors, NGOs, and food donations...');
+        try {
+            // 1. Create Donor 1
+            const donor1 = await fetch(`${API_BASE}/users/register`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name: 'Taj Gateway Hotel', email: 'gateway' + Date.now() + '@taj.com', password: 'Password123', role: 'DONOR' })
+            }).then(r => r.json());
+
+            // 2. Create NGO 1
+            const ngo1 = await fetch(`${API_BASE}/users/register`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name: 'Robin Hood Army', email: 'robin' + Date.now() + '@ngo.org', password: 'Password123', role: 'NGO' })
+            }).then(r => r.json());
+
+            // 3. Create Sample Donation
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+
+            await fetch(`${API_BASE}/donations/${donor1.id}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    foodName: '50 Packed Biryani & Curry Meals',
+                    quantity: '50 meal boxes',
+                    pickupLocation: 'Taj Gateway Banquet Hall, MG Road',
+                    safeUntil: tomorrow.toISOString(),
+                    description: 'Surplus untouched catering meals from afternoon corporate summit. Hygienically packed in insulated boxes.'
+                })
+            });
+
+            showToast('Demo data added successfully! Refreshing...');
+            await loadUsers();
+            await loadAvailableDonations();
+        } catch (err) {
+            showToast('Error seeding sample data: ' + err.message, true);
+        }
+    }
+</script>
 </body>
 </html>

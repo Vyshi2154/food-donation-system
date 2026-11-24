@@ -1,35 +1,27 @@
 package com.fooddonation.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-@Controller
+@RestController
+@RequestMapping("/api/status")
 public class HomeController {
 
-    // Serves the full visual Dashboard UI at root /
-    @GetMapping("/")
-    public String index() {
-        return "forward:/index.html";
-    }
-
-    // Serves the API status & endpoints overview at /api
-    @GetMapping("/api")
-    @ResponseBody
-    public ResponseEntity<Map<String, Object>> apiStatus() {
+    @GetMapping
+    public ResponseEntity<Map<String, Object>> status() {
         Map<String, Object> info = new LinkedHashMap<>();
         info.put("application", "Food Donation System API");
         info.put("status", "ONLINE");
         info.put("timestamp", LocalDateTime.now());
-        info.put("message", "Welcome to the Food Donation System Backend API");
+        info.put("message", "Food Donation System Backend API is running");
 
         Map<String, String> endpoints = new LinkedHashMap<>();
-        endpoints.put("dashboard_ui", "GET /");
         endpoints.put("get_all_users", "GET /api/users");
         endpoints.put("register_user", "POST /api/users/register");
         endpoints.put("get_available_donations", "GET /api/donations/available");
